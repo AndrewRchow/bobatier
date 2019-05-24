@@ -136,6 +136,20 @@ class MyReviewsBase extends React.Component {
   }
 
   componentWillMount() {
+    this.getReviewList();
+  }
+
+  deleteReview(key) {
+    this.props.firebase.userReviews(this.context.authUser.uid).child(key).remove();
+    this.props.firebase.bobaShopUserReviews(key).child(this.context.authUser.uid).remove();
+   this.getReviewList();
+  }
+
+  editReview() {
+
+  }
+
+  getReviewList() {
     const userId = this.context.authUser.uid
 
     this.props.firebase.userReviews(userId).on('value', snapshot => {
@@ -153,13 +167,6 @@ class MyReviewsBase extends React.Component {
     });
   }
 
-  deleteReview(key) {
-    this.props.firebase.userReviews(this.context.authUser.uid).child(key).remove();
-    //TODO
-    // Remove other firebase node
-    // Update page on delete click
-  }
-
   render() {
     const { myReviews } = this.state;
 
@@ -168,9 +175,19 @@ class MyReviewsBase extends React.Component {
         {myReviews.map(review => (
           <li key={review.shopName}>
             <span>
-              Shop Name: {review.shopName}
+              {review.shopName} -
             </span>
-            <button onClick={() => this.deleteReview(review.shopName)}></button>
+            <span>
+              {review.bobaScore} -
+            </span>
+            <span>
+              {review.milkTeaScore} -
+            </span>
+            <span>
+              {review.mouthFeelScore}
+            </span>
+            <button onClick={() => this.editReview(review)}>e</button>
+            <button onClick={() => this.deleteReview(review.shopName)}>d</button>
           </li>
         ))}
       </ul>

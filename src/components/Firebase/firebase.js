@@ -43,6 +43,8 @@ class Firebase {
   bobaShopUserReview = (shopName, userId) => this.db.ref(`bobaShopUserReviews/${shopName}/${userId}`);
   userReview = (userId, shopName) => this.db.ref(`users/${userId}/reviews/${shopName}`);
 
+  bobaShopReviews = () => this.db.ref(`bobaShopUserReviews`);
+  bobaShopUserReviews = (shopName) => this.db.ref(`bobaShopUserReviews/${shopName}`);
   userReviews = (userId) => this.db.ref(`users/${userId}/reviews`);
   users = () => this.db.ref('users');
 }
