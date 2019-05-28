@@ -11,6 +11,7 @@ const withAuthentication = Component => {
       this.state = {
         authUser: null,
         role: null,
+        username: null
       };
     }
 
@@ -20,7 +21,10 @@ const withAuthentication = Component => {
           if (authUser){
             this.setState({ authUser })
             this.props.firebase.user(authUser.uid).on('value', snapshot => {
-              this.setState({ role: snapshot.val().role }) 
+              this.setState({ 
+                role: snapshot.val().role, 
+                username: snapshot.val().username, 
+              }) 
             });
           } else{
             this.setState({ authUser: null });  

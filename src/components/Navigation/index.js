@@ -23,6 +23,9 @@ const NavigationAuthAdmin = () => (
       <Link to={ROUTES.LANDING}>Landing</Link>
     </li>
     <li>
+      <Link to={ROUTES.REVIEWS}>Reviews</Link>
+    </li>
+    <li>
       <Link to={ROUTES.HOME}>Home</Link>
     </li>
     <li>
@@ -41,6 +44,9 @@ const NavigationAuth = () => (
   <ul>
     <li>
       <Link to={ROUTES.LANDING}>Landing</Link>
+    </li>
+    <li>
+      <Link to={ROUTES.REVIEWS}>Reviews</Link>
     </li>
     <li>
       <Link to={ROUTES.HOME}>Home</Link>

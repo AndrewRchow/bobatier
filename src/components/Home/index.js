@@ -1,8 +1,8 @@
 import React from 'react';
+import classes from './home.module.css';
 
 import { withAuthorization, AuthUserContext } from '../Session';
 import { withFirebase } from '../Firebase';
-import PropTypes from 'prop-types';
 
 const INITIAL_STATE = {
   bobaShop: '',
@@ -15,23 +15,23 @@ const INITIAL_STATE = {
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {formValues: INITIAL_STATE};
+    this.state = { formValues: INITIAL_STATE };
     this.editFormValues = this.editFormValues.bind(this)
   }
 
-  myReviewsEdit = (data) => {
-    this.setState({ formValues: data }) 
-  }
-
   editFormValues(params) {
-    this.setState({formValues: params});
+    this.setState({ formValues: params });
   }
 
   render() {
     return (
-      <div>
-        <NewReview formValues={this.state.formValues}/>
-        <MyReviews editReview={this.editFormValues} />
+      <div className="row">
+        <div className="col-md-6">
+          <NewReview formValues={this.state.formValues} />
+        </div>
+        <div  className="col-md-6">
+          <MyReviews editReview={this.editFormValues} />
+        </div>
       </div>
     );
   }
@@ -53,16 +53,20 @@ class NewReviewBase extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-
+    
     const { bobaShop, milkTeaScore, bobaScore, mouthFeelScore } = this.state;
+    const dateTime = new Date().toLocaleString();
     const userId = this.context.authUser.uid;
+    const username = this.context.username;
 
     this.props.firebase
       .bobaShopUserReview(bobaShop, userId)
       .set({
+        username,
         milkTeaScore,
         bobaScore,
         mouthFeelScore,
+        dateTime,
       })
       .catch(error => {
         this.setState({ error });
@@ -71,9 +75,11 @@ class NewReviewBase extends React.Component {
     this.props.firebase
       .userReview(userId, bobaShop)
       .set({
+        username,
         milkTeaScore,
         bobaScore,
         mouthFeelScore,
+        dateTime,
       })
       .then(() => {
         this.setState({ ...INITIAL_STATE });
@@ -81,6 +87,7 @@ class NewReviewBase extends React.Component {
       .catch(error => {
         this.setState({ error });
       });
+      
   };
 
   onChange = event => {

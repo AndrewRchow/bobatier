@@ -16,19 +16,25 @@ class Landing extends React.Component {
   componentWillMount() {
     this.getAllReviewList();
   }
+  
+  componentDidMount() {
+    this.getAllReviewList();
+  }
 
   getAllReviewList() {
     this.props.firebase.bobaShopReviews().on('value', snapshot => {
       const reviewsObject = snapshot.val();
-
+      console.log(reviewsObject);
       if (reviewsObject) {
+        // const reviewsList = Object.keys(reviewsObject).map(key => ({
+        //   shopName: key,
+        //   ...reviewsObject[key],
+        // }))
+        // console.log(reviewsList);
         this.setState({
           reviews: reviewsObject,
-        }, () => {
-          this.gradeReviews();
         });
-
-
+        this.gradeReviews();
       }
     });
   }
@@ -39,7 +45,7 @@ class Landing extends React.Component {
     let grades = {};
 
     for (let shop in this.state.reviews) {
-      for (let user in this.state.reviews[shop]) {
+      for(let user in this.state.reviews[shop]) {
         let userReview = this.state.reviews[shop][user];
         bobaTotal += userReview.bobaScore;
         milkTeaTotal += userReview.milkTeaScore;
@@ -47,7 +53,7 @@ class Landing extends React.Component {
         count++;
       }
 
-      let finalScore = (parseFloat(bobaTotal) + parseFloat(milkTeaTotal) + parseFloat(mouthFeelTotal)) / (count * 3);
+      let finalScore = (parseFloat(bobaTotal) + parseFloat(milkTeaTotal) + parseFloat(mouthFeelTotal))/(count*3);
       grades[shop] = finalScore;
 
       count = bobaTotal = milkTeaTotal = mouthFeelTotal = 0;
@@ -56,6 +62,7 @@ class Landing extends React.Component {
     this.setState({
       grades: grades
     })
+    console.log(grades);
   }
 
 
