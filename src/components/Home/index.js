@@ -2,21 +2,41 @@ import React from 'react';
 
 import { withAuthorization, AuthUserContext } from '../Session';
 import { withFirebase } from '../Firebase';
+import PropTypes from 'prop-types';
 
 const INITIAL_STATE = {
   bobaShop: '',
-  milkTeaScore: 0,
-  bobaScore: 0,
-  mouthFeelScore: 0,
+  milkTeaScore: 1,
+  bobaScore: 1,
+  mouthFeelScore: 1,
   error: null,
 };
 
-const HomePage = () => (
-  <div>
-    <NewReview />
-    <MyReviews />
-  </div>
-);
+class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {formValues: INITIAL_STATE};
+    this.editFormValues = this.editFormValues.bind(this)
+  }
+
+  myReviewsEdit = (data) => {
+    this.setState({ formValues: data }) 
+  }
+
+  editFormValues(params) {
+    this.setState({formValues: params});
+  }
+
+  render() {
+    return (
+      <div>
+        <NewReview formValues={this.state.formValues}/>
+        <MyReviews editReview={this.editFormValues} />
+      </div>
+    );
+  }
+
+}
 
 
 class NewReviewBase extends React.Component {
@@ -24,11 +44,11 @@ class NewReviewBase extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = { ...INITIAL_STATE };
+    this.state = props.formValues;
   }
 
-  componentDidMount() {
+  componentWillReceiveProps(props) {
+    this.setState(props.formValues);
   }
 
   onSubmit = event => {
@@ -142,12 +162,12 @@ class MyReviewsBase extends React.Component {
   deleteReview(key) {
     this.props.firebase.userReviews(this.context.authUser.uid).child(key).remove();
     this.props.firebase.bobaShopUserReviews(key).child(this.context.authUser.uid).remove();
-   this.getReviewList();
+    this.getReviewList();
   }
 
-  editReview() {
-
-  }
+  // editReview(event) {
+  //   this.props.callback(event.target.value);
+  // }
 
   getReviewList() {
     const userId = this.context.authUser.uid
@@ -156,10 +176,9 @@ class MyReviewsBase extends React.Component {
       const myReviewsObject = snapshot.val();
       if (myReviewsObject) {
         const myReviewsList = Object.keys(myReviewsObject).map(key => ({
-          shopName: key,
+          bobaShop: key,
           ...myReviewsObject[key],
         }))
-        console.log(myReviewsList);
         this.setState({
           myReviews: myReviewsList,
         });
@@ -173,21 +192,21 @@ class MyReviewsBase extends React.Component {
     return (
       <ul>
         {myReviews.map(review => (
-          <li key={review.shopName}>
+          <li key={review.bobaShop}>
             <span>
-              {review.shopName} -
-            </span>
-            <span>
-              {review.bobaScore} -
+              {review.bobaShop} -
             </span>
             <span>
               {review.milkTeaScore} -
             </span>
             <span>
+              {review.bobaScore} -
+            </span>
+            <span>
               {review.mouthFeelScore}
             </span>
-            <button onClick={() => this.editReview(review)}>e</button>
-            <button onClick={() => this.deleteReview(review.shopName)}>d</button>
+            <button onClick={() => this.props.editReview(review)}>e</button>
+            <button onClick={() => this.deleteReview(review.bobaShop)}>d</button>
           </li>
         ))}
       </ul>
