@@ -1,8 +1,12 @@
 import React from 'react';
 
 import { withFirebase } from '../Firebase';
+import { withAuthorization, AuthUserContext } from '../Session';
+
 
 class Reviews extends React.Component {
+    static contextType = AuthUserContext;
+
     constructor(props) {
         super(props);
 
@@ -25,7 +29,6 @@ class Reviews extends React.Component {
     getAllReviewList() {
         this.props.firebase.bobaShopReviews().on('value', snapshot => {
             const reviewsObject = snapshot.val();
-            console.log(reviewsObject);
             if (reviewsObject) {
                 this.setState({
                     reviews: reviewsObject,
@@ -39,13 +42,23 @@ class Reviews extends React.Component {
     sortReviews() {
         let sortedReviews = [];
         for (let shop in this.state.reviews) {
-            for (let user in this.state.reviews[shop]) {
+            for (let uid in this.state.reviews[shop]) {
                 let review = {
-                    ...this.state.reviews[shop][user],
+                    ...this.state.reviews[shop][uid],
                     shop: shop,
-                    user: user,
+                    uid: uid,
                     displayAddComment: false,
                     displayAllComments: false,
+                };
+                if(review.comments){
+
+                    review.comments = Object.keys(review.comments).map(key => ({
+                        ...review.comments[key],
+                        uid: key,
+                    }));
+                    review.comments.sort(function (a, b) {
+                        return new Date(b.dateTime) - new Date(a.dateTime);
+                    });
                 }
                 sortedReviews.push(review);
             }
@@ -53,6 +66,7 @@ class Reviews extends React.Component {
         sortedReviews.sort(function (a, b) {
             return new Date(b.dateTime) - new Date(a.dateTime);
         });
+        console.log(sortedReviews);
         this.setState({ sortedReviews: sortedReviews });
     }
 
@@ -66,21 +80,24 @@ class Reviews extends React.Component {
         const newSortedReviews = this.state.sortedReviews.slice();
         newSortedReviews[index].displayAllComments = true;
         this.setState({ sortedReviews: newSortedReviews });
-        console.log(this.state);
     }
 
     onChange = event => {
         this.setState({ comment: event.target.value });
     };
 
-    submitComment(shop, username) {
-        console.log(shop, username);
+    submitComment(shop, uid) {
         const comment = this.state.comment;
+        const username = this.context.username;
+        const dateTime = new Date().toLocaleString();
 
         this.props.firebase
-            .bobaShopUserComment(shop, username)
+            .bobaShopUserComment(shop, uid)
             .push({
-                comment
+                comment,
+                username,
+                uid,
+                dateTime
             })
             .then(() => {
                 this.setState({ comment: null });
@@ -114,7 +131,7 @@ class Reviews extends React.Component {
                                 element.displayAddComment ?
                                     <div>
                                         <input name="comment" type="text" onChange={this.onChange} placeholder="Add comment" />
-                                        <button onClick={() => this.submitComment(element.shop, element.user)}>a</button>
+                                        <button onClick={() => this.submitComment(element.shop, element.uid)}>a</button>
                                     </div>
                                     :
                                     <div></div>
@@ -122,11 +139,17 @@ class Reviews extends React.Component {
                             {
                                 element.displayAllComments ?
                                     <div>
-                                        {Object.entries(element.comments).map((comment) => (
-                                            <div key={comment}>
-                                                    {comment.comment}
-                                            </div>
-                                        ))}
+                                        <div>
+                                            {element.comments.map((element, index) => (
+                                                <div key={index}>
+                                                    {element.comment} - {element.username}
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div>
+                                            <input name="comment" type="text" onChange={this.onChange} placeholder="Add comment" />
+                                            <button onClick={() => this.submitComment(element.shop, element.uid)}>a</button>
+                                        </div>
                                     </div>
                                     :
                                     <div></div>
@@ -141,5 +164,6 @@ class Reviews extends React.Component {
     }
 }
 
+const condition = authUser => !!authUser;
 
-export default withFirebase(Reviews);
+export default withFirebase(withAuthorization(condition)(Reviews));

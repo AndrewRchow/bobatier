@@ -24,7 +24,6 @@ class Landing extends React.Component {
   getAllReviewList() {
     this.props.firebase.bobaShopReviews().on('value', snapshot => {
       const reviewsObject = snapshot.val();
-      console.log(reviewsObject);
       if (reviewsObject) {
         this.setState({
           reviews: reviewsObject,
@@ -63,8 +62,6 @@ class Landing extends React.Component {
 
   render() {
     const { grades } = this.state;
-    console.log('lj');
-    console.log(grades);
 
     return (
       <ul>
