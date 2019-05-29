@@ -17,24 +17,20 @@ class Landing extends React.Component {
     this.getAllReviewList();
   }
   
-  componentDidMount() {
-    this.getAllReviewList();
-  }
+  // componentDidMount() {
+  //   this.getAllReviewList();
+  // }
 
   getAllReviewList() {
     this.props.firebase.bobaShopReviews().on('value', snapshot => {
       const reviewsObject = snapshot.val();
       console.log(reviewsObject);
       if (reviewsObject) {
-        // const reviewsList = Object.keys(reviewsObject).map(key => ({
-        //   shopName: key,
-        //   ...reviewsObject[key],
-        // }))
-        // console.log(reviewsList);
         this.setState({
           reviews: reviewsObject,
+        }, () =>{
+          this.gradeReviews();
         });
-        this.gradeReviews();
       }
     });
   }
@@ -62,12 +58,13 @@ class Landing extends React.Component {
     this.setState({
       grades: grades
     })
-    console.log(grades);
   }
 
 
   render() {
     const { grades } = this.state;
+    console.log('lj');
+    console.log(grades);
 
     return (
       <ul>
