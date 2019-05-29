@@ -18,13 +18,9 @@ class Reviews extends React.Component {
 
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getAllReviewList();
     }
-
-    // componentDidMount() {
-    //     this.getAllReviewList();
-    // }
 
     getAllReviewList() {
         this.props.firebase.bobaShopReviews().on('value', snapshot => {
@@ -39,6 +35,11 @@ class Reviews extends React.Component {
         });
     }
 
+    componentWillUnmount() {
+        this.props.firebase.bobaShopReviews().off();
+    }
+
+
     sortReviews() {
         let sortedReviews = [];
         for (let shop in this.state.reviews) {
@@ -47,10 +48,10 @@ class Reviews extends React.Component {
                     ...this.state.reviews[shop][uid],
                     shop: shop,
                     uid: uid,
-                    displayAddComment: false,
-                    displayAllComments: false,
+                    // displayAddComment: false,
+                    // displayAllComments: false,
                 };
-                if(review.comments){
+                if (review.comments) {
 
                     review.comments = Object.keys(review.comments).map(key => ({
                         ...review.comments[key],
@@ -70,17 +71,17 @@ class Reviews extends React.Component {
         this.setState({ sortedReviews: sortedReviews });
     }
 
-    addComment(index) {
-        const newSortedReviews = this.state.sortedReviews.slice();
-        newSortedReviews[index].displayAddComment = true;
-        this.setState({ sortedReviews: newSortedReviews });
-    }
+    // addComment(index) {
+    //     const newSortedReviews = this.state.sortedReviews.slice();
+    //     newSortedReviews[index].displayAddComment = true;
+    //     this.setState({ sortedReviews: newSortedReviews });
+    // }
 
-    viewComments(index) {
-        const newSortedReviews = this.state.sortedReviews.slice();
-        newSortedReviews[index].displayAllComments = true;
-        this.setState({ sortedReviews: newSortedReviews });
-    }
+    // viewComments(index) {
+    //     const newSortedReviews = this.state.sortedReviews.slice();
+    //     newSortedReviews[index].displayAllComments = true;
+    //     this.setState({ sortedReviews: newSortedReviews });
+    // }
 
     onChange = event => {
         this.setState({ comment: event.target.value });
@@ -107,37 +108,18 @@ class Reviews extends React.Component {
 
 
     render() {
-        // const { sortedReviews } = this.state;
+        const { sortedReviews } = this.state;
 
         return (
             <div>
                 <ul>
-                    {this.state.sortedReviews.map((element, index) => (
+                    {sortedReviews.map((element, index) => (
                         <li key={index}>
                             <span>
                                 {element.shop} - {element.milkTeaScore} - {element.bobaScore} - {element.mouthFeelScore} - {element.username}
                             </span>
                             {
                                 element.comments ?
-                                    <div>
-                                        <button onClick={() => this.viewComments(index)}>v</button>
-                                    </div>
-                                    :
-                                    <div>
-                                        <button onClick={() => this.addComment(index)}>a</button>
-                                    </div>
-                            }
-                            {
-                                element.displayAddComment ?
-                                    <div>
-                                        <input name="comment" type="text" onChange={this.onChange} placeholder="Add comment" />
-                                        <button onClick={() => this.submitComment(element.shop, element.uid)}>a</button>
-                                    </div>
-                                    :
-                                    <div></div>
-                            }
-                            {
-                                element.displayAllComments ?
                                     <div>
                                         <div>
                                             {element.comments.map((element, index) => (
@@ -152,10 +134,11 @@ class Reviews extends React.Component {
                                         </div>
                                     </div>
                                     :
-                                    <div></div>
+                                    <div>
+                                        <input name="comment" type="text" onChange={this.onChange} placeholder="Add comment" />
+                                        <button onClick={() => this.submitComment(element.shop, element.uid)}>a</button>
+                                    </div>
                             }
-
-
                         </li>
                     ))}
                 </ul>
@@ -167,3 +150,43 @@ class Reviews extends React.Component {
 const condition = authUser => !!authUser;
 
 export default withFirebase(withAuthorization(condition)(Reviews));
+
+
+
+// {
+//     element.comments ?
+//         <div>
+//             <button onClick={() => this.viewComments(index)}>v</button>
+//         </div>
+//         :
+//         <div>
+//             <button onClick={() => this.addComment(index)}>a</button>
+//         </div>
+// }
+// {
+//     element.displayAddComment ?
+//         <div>
+//             <input name="comment" type="text" onChange={this.onChange} placeholder="Add comment" />
+//             <button onClick={() => this.submitComment(element.shop, element.uid)}>a</button>
+//         </div>
+//         :
+//         <div></div>
+// }
+// {
+//     element.displayAllComments ?
+//         <div>
+//             <div>
+//                 {element.comments.map((element, index) => (
+//                     <div key={index}>
+//                         {element.comment} - {element.username}
+//                     </div>
+//                 ))}
+//             </div>
+//             <div>
+//                 <input name="comment" type="text" onChange={this.onChange} placeholder="Add comment" />
+//                 <button onClick={() => this.submitComment(element.shop, element.uid)}>a</button>
+//             </div>
+//         </div>
+//         :
+//         <div></div>
+// }

@@ -61,7 +61,7 @@ class NewReviewBase extends React.Component {
 
     this.props.firebase
       .bobaShopUserReview(bobaShop, userId)
-      .set({
+      .update({
         username,
         milkTeaScore,
         bobaScore,
@@ -74,7 +74,7 @@ class NewReviewBase extends React.Component {
 
     this.props.firebase
       .userReview(userId, bobaShop)
-      .set({
+      .update({
         username,
         milkTeaScore,
         bobaScore,
@@ -162,7 +162,7 @@ class MyReviewsBase extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getReviewList();
   }
 
@@ -191,6 +191,10 @@ class MyReviewsBase extends React.Component {
         });
       }
     });
+  }
+
+  componentWillUnmount() {
+    this.props.firebase.userReviews().off();
   }
 
   render() {

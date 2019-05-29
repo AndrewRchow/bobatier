@@ -13,7 +13,7 @@ class Landing extends React.Component {
 
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getAllReviewList();
   }
   
@@ -59,6 +59,9 @@ class Landing extends React.Component {
     })
   }
 
+  componentWillUnmount() {
+    this.props.firebase.bobaShopReviews().off();
+  }
 
   render() {
     const { grades } = this.state;
