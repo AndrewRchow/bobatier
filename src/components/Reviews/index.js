@@ -1,7 +1,9 @@
 import React from 'react';
+import StarRatings from 'react-star-ratings';
 
 import { withFirebase } from '../Firebase';
 import { withAuthorization, AuthUserContext } from '../Session';
+
 
 
 class Reviews extends React.Component {
@@ -116,7 +118,41 @@ class Reviews extends React.Component {
                     {sortedReviews.map((element, index) => (
                         <li key={index}>
                             <span>
-                                {element.shop} - {element.milkTeaScore} - {element.bobaScore} - {element.mouthFeelScore} - {element.username}
+                                {element.shop} --
+                                {/* <StarRatings
+                                    rating={parseFloat(element.milkTeaScore)}
+                                    starRatedColor="#0099ff"
+                                    starHoverColor="#66ccff"
+                                    numberOfStars={5}
+                                    name="milkTeaScore"
+                                    starDimension="12px"
+                                    starSpacing="2px"
+                                    isSelectable="false"
+                                />
+                                --
+                                <StarRatings
+                                    rating={parseFloat(element.bobaScore)}
+                                    starRatedColor="#0099ff"
+                                    starHoverColor="#66ccff"
+                                    numberOfStars={5}
+                                    name="bobaScore"
+                                    starDimension="12px"
+                                    starSpacing="2px"
+                                    isSelectable="false"
+                                />
+                                --
+                                <StarRatings
+                                    rating={parseFloat(element.mouthFeelScore)}
+                                    starRatedColor="#0099ff"
+                                    starHoverColor="#66ccff"
+                                    numberOfStars={5}
+                                    name="mouthFeelScore"
+                                    starDimension="12px"
+                                    starSpacing="2px"
+                                    isSelectable="false"
+                                /> */}
+
+                                 - {element.milkTeaScore} - {element.bobaScore} - {element.mouthFeelScore} - {element.username}
                             </span>
                             {
                                 element.comments ?

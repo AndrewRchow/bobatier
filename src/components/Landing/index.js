@@ -115,18 +115,6 @@ class Landing extends React.Component {
     return (
       <div>
         <ul>
-          {Object.entries(grades).map(([shopName, finalScore]) => (
-            <li key={shopName}>
-              <span>
-                {shopName}
-              </span>
-              <span>
-                - {finalScore}
-              </span>
-            </li>
-          ))}
-        </ul>
-        <ul>
           {Object.entries(tierList).map(([tier, list]) => (
             <li key={tier}>
               <span>
@@ -142,9 +130,21 @@ class Landing extends React.Component {
             </li>
           ))}
         </ul>
+
+        {/* <ul>
+          {Object.entries(grades).map(([shopName, finalScore]) => (
+            <li key={shopName}>
+              <span>
+                {shopName}
+              </span>
+              <span>
+                - {finalScore}
+              </span>
+            </li>
+          ))}
+        </ul> */}
+
       </div>
-
-
     )
   }
 }
