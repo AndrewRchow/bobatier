@@ -1,4 +1,5 @@
 import React from 'react';
+import classes from './navigation.module.css';
 import { Link } from 'react-router-dom';
 
 import SignOutButton from '../SignOut';
@@ -18,7 +19,7 @@ const Navigation = () => (
 );
 
 const NavigationAuthAdmin = () => (
-  <ul>
+  <ul className={classes.horizontal}>
     <li>
       <Link to={ROUTES.LANDING}>Landing</Link>
     </li>
@@ -41,7 +42,7 @@ const NavigationAuthAdmin = () => (
 );
 
 const NavigationAuth = () => (
-  <ul>
+  <ul className={classes.horizontal}>
     <li>
       <Link to={ROUTES.LANDING}>Landing</Link>
     </li>
@@ -61,7 +62,7 @@ const NavigationAuth = () => (
 );
 
 const NavigationNonAuth = () => (
-  <ul>
+  <ul className={classes.horizontal}>
     <li>
       <Link to={ROUTES.LANDING}>Landing</Link>
     </li>

@@ -1,0 +1,8 @@
+ul.horizontal {
+    overflow: hidden;
+}
+
+ul.horizontal li {
+    float:left;
+    padding-right:15px;
+}

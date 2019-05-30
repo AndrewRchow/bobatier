@@ -21,17 +21,14 @@ class HomePage extends React.Component {
 
   editFormValues(params) {
     this.setState({ formValues: params });
+    window.scrollTo(0, 0);
   }
 
   render() {
     return (
-      <div className="row">
-        <div className="col-md-6">
-          <NewReview formValues={this.state.formValues} />
-        </div>
-        <div  className="col-md-6">
-          <MyReviews editReview={this.editFormValues} />
-        </div>
+      <div>
+        <NewReview formValues={this.state.formValues} />
+        <MyReviews editReview={this.editFormValues} />
       </div>
     );
   }
@@ -53,7 +50,7 @@ class NewReviewBase extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    
+
     const { bobaShop, milkTeaScore, bobaScore, mouthFeelScore } = this.state;
     const dateTime = new Date().toLocaleString();
     const userId = this.context.authUser.uid;
@@ -87,7 +84,7 @@ class NewReviewBase extends React.Component {
       .catch(error => {
         this.setState({ error });
       });
-      
+
   };
 
   onChange = event => {
@@ -114,13 +111,15 @@ class NewReviewBase extends React.Component {
       <form onSubmit={this.onSubmit}>
         <input
           name="bobaShop"
+          className={classes.reviewInput}
           value={bobaShop}
           onChange={this.onChange}
           type="text"
-          placeholder="Boba Shop"
+          placeholder="Shop"
         />
         <input
           name="milkTeaScore"
+          className={classes.reviewInput}
           value={milkTeaScore}
           onChange={this.onChange}
           type="number"
@@ -128,6 +127,7 @@ class NewReviewBase extends React.Component {
         />
         <input
           name="bobaScore"
+          className={classes.reviewInput}
           value={bobaScore}
           onChange={this.onChange}
           type="number"
@@ -135,13 +135,14 @@ class NewReviewBase extends React.Component {
         />
         <input
           name="mouthFeelScore"
+          className={classes.reviewInput}
           value={mouthFeelScore}
           onChange={this.onChange}
           type="number"
           placeholder="Mouth Feel Score"
         />
 
-        <button disabled={isInvalid} type="submit">
+        <button className={classes.submitButton} disabled={isInvalid} type="submit">
           Submit
       </button>
 

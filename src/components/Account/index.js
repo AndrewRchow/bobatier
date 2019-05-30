@@ -1,15 +1,20 @@
 import React from 'react';
+import classes from './account.module.css';
 
 import { AuthUserContext } from '../Session';
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
 import { withAuthorization } from '../Session';
 
+const divStyle={
+  margin: '15px',
+}
+
 const AccountPage = () => (
   <AuthUserContext.Consumer>
     {login => (
-      <div>
-        <h1>Account: {login.authUser.email}</h1>
+      <div style={divStyle}>
+        <h5>Account: {login.authUser.email}</h5>
         <PasswordForgetForm />
         <PasswordChangeForm />
       </div>

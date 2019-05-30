@@ -8,7 +8,14 @@ class Landing extends React.Component {
 
     this.state = {
       reviews: {},
-      grades: {}
+      grades: {},
+      tierList: {
+        S: [],
+        A: [],
+        B: [],
+        C: [],
+        D: [],
+      }
     }
 
   }
@@ -16,7 +23,7 @@ class Landing extends React.Component {
   componentDidMount() {
     this.getAllReviewList();
   }
-  
+
   // componentDidMount() {
   //   this.getAllReviewList();
   // }
@@ -27,7 +34,7 @@ class Landing extends React.Component {
       if (reviewsObject) {
         this.setState({
           reviews: reviewsObject,
-        }, () =>{
+        }, () => {
           this.gradeReviews();
         });
       }
@@ -40,7 +47,7 @@ class Landing extends React.Component {
     let grades = {};
 
     for (let shop in this.state.reviews) {
-      for(let user in this.state.reviews[shop]) {
+      for (let user in this.state.reviews[shop]) {
         let userReview = this.state.reviews[shop][user];
         bobaTotal += userReview.bobaScore;
         milkTeaTotal += userReview.milkTeaScore;
@@ -48,7 +55,7 @@ class Landing extends React.Component {
         count++;
       }
 
-      let finalScore = (parseFloat(bobaTotal) + parseFloat(milkTeaTotal) + parseFloat(mouthFeelTotal))/(count*3);
+      let finalScore = (parseFloat(bobaTotal) + parseFloat(milkTeaTotal) + parseFloat(mouthFeelTotal)) / (count * 3);
       grades[shop] = finalScore;
 
       count = bobaTotal = milkTeaTotal = mouthFeelTotal = 0;
@@ -57,6 +64,40 @@ class Landing extends React.Component {
     this.setState({
       grades: grades
     })
+    console.log(grades);
+
+    let tierList = {
+      SS: [],
+      S: [],
+      A: [],
+      B: [],
+      C: [],
+      D: [],
+      E: [],
+    }
+
+    for (let shop in grades) {
+      if (grades[shop] >= 5) {
+        tierList.SS.push(shop)
+      } else if (4.75 <= grades[shop] && grades[shop] < 5) {
+        tierList.S.push(shop)
+      } else if (4.25 <= grades[shop] && grades[shop] < 4.75) {
+        tierList.A.push(shop)
+      } else if (3.5 <= grades[shop] && grades[shop] < 4.25) {
+        tierList.B.push(shop)
+      } else if (2.75 <= grades[shop] && grades[shop] < 3.5) {
+        tierList.C.push(shop)
+      } else if (2 <= grades[shop] && grades[shop] < 2.75) {
+        tierList.D.push(shop)
+      } else if (grades[shop] < 2) {
+        tierList.E.push(shop)
+      }
+    }
+
+    this.setState({
+      tierList: tierList
+    });
+    console.log(tierList);
   }
 
   componentWillUnmount() {
@@ -65,20 +106,45 @@ class Landing extends React.Component {
 
   render() {
     const { grades } = this.state;
+    const { tierList } = this.state;
+
+    var divStyle = {
+      display: 'inline',
+    };
 
     return (
-      <ul>
-        {Object.entries(grades).map(([shopName, finalScore]) => (
-          <li key={shopName}>
-            <span>
-              {shopName}
-            </span>
-            <span>
-              - {finalScore}
-            </span>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <ul>
+          {Object.entries(grades).map(([shopName, finalScore]) => (
+            <li key={shopName}>
+              <span>
+                {shopName}
+              </span>
+              <span>
+                - {finalScore}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <ul>
+          {Object.entries(tierList).map(([tier, list]) => (
+            <li key={tier}>
+              <span>
+                {tier} -
+              </span>
+              {
+                list.map((shop, index) => (
+                  <div key={index} style={divStyle}>
+                    {shop}.
+                  </div>
+                ))
+              }
+            </li>
+          ))}
+        </ul>
+      </div>
+
+
     )
   }
 }
