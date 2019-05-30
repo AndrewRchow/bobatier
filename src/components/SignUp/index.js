@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import PasswordMask from 'react-password-mask';
 
+import classes from './signUp.module.css';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 const SignUpPage = () => (
   <div>
-    <h1>SignUp</h1>
+    <h5>SignUp</h5>
     <SignUpForm />
   </div>
 );
@@ -15,7 +17,6 @@ const INITIAL_STATE = {
   username: '',
   email: '',
   passwordOne: '',
-  passwordTwo: '',
   error: null,
 };
 
@@ -56,16 +57,18 @@ class SignUpFormBase extends Component {
   };
 
   render() {
+    const blockStyle = {
+      display: "block"
+    }
+
     const {
       username,
       email,
       passwordOne,
-      passwordTwo,
       error,
     } = this.state;
 
     const isInvalid =
-      passwordOne !== passwordTwo ||
       passwordOne === '' ||
       email === '' ||
       username === '';
@@ -78,6 +81,7 @@ class SignUpFormBase extends Component {
           onChange={this.onChange}
           type="text"
           placeholder="Name"
+          style={blockStyle}
         />
         <input
           name="email"
@@ -85,21 +89,16 @@ class SignUpFormBase extends Component {
           onChange={this.onChange}
           type="text"
           placeholder="Email Address"
+          style={blockStyle}
         />
-        <input
+        <PasswordMask
           name="passwordOne"
+          placeholder="Password"
           value={passwordOne}
           onChange={this.onChange}
-          type="password"
-          placeholder="Password"
+          className={classes.signUpInput}
         />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Confirm Password"
-        />
+
         <button disabled={isInvalid} type="submit">
           Sign Up
         </button>

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
+import PasswordMask from 'react-password-mask';
 
+import classes from './signIn.module.css';
 import { SignUpLink } from '../SignUp';
 import { PasswordForgetLink } from '../PasswordForget';
 import { withFirebase } from '../Firebase';
@@ -62,13 +64,14 @@ class SignInFormBase extends Component {
           onChange={this.onChange}
           type="text"
           placeholder="Email Address"
+          className={classes.signInInput}
         />
-        <input
+        <PasswordMask
           name="password"
+          placeholder="Password"
           value={password}
           onChange={this.onChange}
-          type="password"
-          placeholder="Password"
+          className={classes.signInInput}
         />
         <button disabled={isInvalid} type="submit">
           Sign In

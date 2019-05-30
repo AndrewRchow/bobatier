@@ -3,6 +3,7 @@ import classes from './home.module.css';
 
 import { withAuthorization, AuthUserContext } from '../Session';
 import { withFirebase } from '../Firebase';
+import StarRatings from 'react-star-ratings';
 
 const INITIAL_STATE = {
   bobaShop: '',
@@ -91,6 +92,10 @@ class NewReviewBase extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  onChangeScore = (rating, name) => {
+    this.setState({ [name]: rating });
+  };
+
 
   render() {
     const {
@@ -108,7 +113,10 @@ class NewReviewBase extends React.Component {
       mouthFeelScore === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
+
+
+
+      <form onSubmit={this.onSubmit} className={classes.submitForm}>
         <input
           name="bobaShop"
           className={classes.reviewInput}
@@ -117,30 +125,39 @@ class NewReviewBase extends React.Component {
           type="text"
           placeholder="Shop"
         />
-        <input
-          name="milkTeaScore"
-          className={classes.reviewInput}
-          value={milkTeaScore}
-          onChange={this.onChange}
-          type="number"
-          placeholder="Milk Tea Score"
-        />
-        <input
-          name="bobaScore"
-          className={classes.reviewInput}
-          value={bobaScore}
-          onChange={this.onChange}
-          type="number"
-          placeholder="Boba Score"
-        />
-        <input
-          name="mouthFeelScore"
-          className={classes.reviewInput}
-          value={mouthFeelScore}
-          onChange={this.onChange}
-          type="number"
-          placeholder="Mouth Feel Score"
-        />
+        <div className={classes.starRating}>
+          <StarRatings
+            rating={milkTeaScore}
+            starRatedColor="#0099ff"
+            starHoverColor="#66ccff"
+            changeRating={this.onChangeScore}
+            numberOfStars={5}
+            name="milkTeaScore"
+            starDimension="20px"
+          />
+        </div>
+        <div className={classes.starRating}>
+          <StarRatings
+            rating={bobaScore}
+            starRatedColor="#0099ff"
+            starHoverColor="#66ccff"
+            changeRating={this.onChangeScore}
+            numberOfStars={5}
+            name="bobaScore"
+            starDimension="20px"
+          />
+        </div>
+        <div className={classes.starRating}>
+          <StarRatings
+            rating={mouthFeelScore}
+            starRatedColor="#0099ff"
+            starHoverColor="#66ccff"
+            changeRating={this.onChangeScore}
+            numberOfStars={5}
+            name="mouthFeelScore"
+            starDimension="20px"
+          />
+        </div>
 
         <button className={classes.submitButton} disabled={isInvalid} type="submit">
           Submit
@@ -168,9 +185,11 @@ class MyReviewsBase extends React.Component {
   }
 
   deleteReview(key) {
-    this.props.firebase.userReviews(this.context.authUser.uid).child(key).remove();
-    this.props.firebase.bobaShopUserReviews(key).child(this.context.authUser.uid).remove();
-    this.getReviewList();
+    var result = window.confirm("Are you sure you want to delete?");
+    if (result) {
+      this.props.firebase.userReviews(this.context.authUser.uid).child(key).remove();
+      this.props.firebase.bobaShopUserReviews(key).child(this.context.authUser.uid).remove();  
+    }
   }
 
   // editReview(event) {
