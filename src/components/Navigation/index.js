@@ -19,57 +19,31 @@ const Navigation = () => (
 );
 
 const NavigationAuthAdmin = () => (
-  <ul className={classes.horizontal}>
-    <li>
+  <div className={classes.horizontal}>
       <Link to={ROUTES.LANDING}>Landing</Link>
-    </li>
-    <li>
       <Link to={ROUTES.REVIEWS}>Reviews</Link>
-    </li>
-    <li>
       <Link to={ROUTES.HOME}>Home</Link>
-    </li>
-    <li>
       <Link to={ROUTES.ACCOUNT}>Account</Link>
-    </li>
-    <li>
       <Link to={ROUTES.ADMIN}>Admin</Link>
-    </li>
-    <li>
       <SignOutButton />
-    </li>
-  </ul>
+  </div>
 );
 
 const NavigationAuth = () => (
-  <ul className={classes.horizontal}>
-    <li>
+  <div className={classes.horizontal}>
       <Link to={ROUTES.LANDING}>Landing</Link>
-    </li>
-    <li>
       <Link to={ROUTES.REVIEWS}>Reviews</Link>
-    </li>
-    <li>
       <Link to={ROUTES.HOME}>Home</Link>
-    </li>
-    <li>
       <Link to={ROUTES.ACCOUNT}>Account</Link>
-    </li>
-    <li>
       <SignOutButton />
-    </li>
-  </ul>
+  </div>
 );
 
 const NavigationNonAuth = () => (
-  <ul className={classes.horizontal}>
-    <li>
+  <div className={classes.horizontal}>
       <Link to={ROUTES.LANDING}>Landing</Link>
-    </li>
-    <li>
       <Link to={ROUTES.SIGN_IN}>Sign In</Link>
-    </li>
-  </ul>
+  </div>
 );
 
 export default Navigation;

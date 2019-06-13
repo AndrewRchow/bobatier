@@ -1,4 +1,5 @@
 import React from 'react';
+import Autosuggest from 'react-autosuggest';
 import classes from './home.module.css';
 
 import { withAuthorization, AuthUserContext } from '../Session';
