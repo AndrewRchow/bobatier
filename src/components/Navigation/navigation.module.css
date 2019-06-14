@@ -6,3 +6,8 @@
     float:left;
     padding-right:15px;
 }
+
+.active {
+    color: white;
+    background-color:#00ace6;
+}
