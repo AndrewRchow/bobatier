@@ -22,6 +22,9 @@ class HomePage extends React.Component {
   }
 
   editFormValues(params) {
+    params.milkTeaScore = parseInt(params.milkTeaScore);
+    params.bobaScore = parseInt(params.bobaScore);
+    params.mouthFeelScore = parseInt(params.mouthFeelScore);
     this.setState({ formValues: params });
     window.scrollTo(0, 0);
   }
