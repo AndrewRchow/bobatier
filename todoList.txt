@@ -1,0 +1,3 @@
+- style autocomplete for home input
+- insert into bobashop list, use for autofill, delete shop when review is deleted.
+- hover show for adding new comments

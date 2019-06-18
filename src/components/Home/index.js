@@ -1,10 +1,10 @@
 import React from 'react';
-import Autosuggest from 'react-autosuggest';
 import classes from './home.module.css';
 
 import { withAuthorization, AuthUserContext } from '../Session';
 import { withFirebase } from '../Firebase';
 import StarRatings from 'react-star-ratings';
+import AutoSuggestBobaShops from '../AutoSuggest/index';
 
 const INITIAL_STATE = {
   bobaShop: '',
@@ -18,7 +18,7 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { formValues: INITIAL_STATE };
-    this.editFormValues = this.editFormValues.bind(this)
+    this.editFormValues = this.editFormValues.bind(this);
   }
 
   editFormValues(params) {
@@ -47,6 +47,7 @@ class NewReviewBase extends React.Component {
   constructor(props) {
     super(props);
     this.state = props.formValues;
+    this.getAutosuggestInput = this.getAutosuggestInput.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -100,6 +101,15 @@ class NewReviewBase extends React.Component {
     this.setState({ [name]: rating });
   };
 
+  // test = event => {
+  //   this.setState({'bobaShop': event.target});
+  // };
+
+  getAutosuggestInput(value){
+    // Test logging:
+    console.log(value);
+    this.setState({bobaShop: value})
+}
 
   render() {
     const {
@@ -117,18 +127,16 @@ class NewReviewBase extends React.Component {
       mouthFeelScore === '';
 
     return (
-
-
-
       <form onSubmit={this.onSubmit} className={classes.submitForm}>
-        <input
+        <AutoSuggestBobaShops getInputData={this.getAutosuggestInput} bobaShop={bobaShop}/>
+        {/* <input
           name="bobaShop"
           className={classes.reviewInput}
           value={bobaShop}
           onChange={this.onChange}
           type="text"
           placeholder="Shop"
-        />
+        /> */}
         <div className={classes.starRating}>
           <StarRatings
             rating={milkTeaScore}
@@ -192,7 +200,7 @@ class MyReviewsBase extends React.Component {
     var result = window.confirm("Are you sure you want to delete?");
     if (result) {
       this.props.firebase.userReviews(this.context.authUser.uid).child(key).remove();
-      this.props.firebase.bobaShopUserReviews(key).child(this.context.authUser.uid).remove();  
+      this.props.firebase.bobaShopUserReviews(key).child(this.context.authUser.uid).remove();
     }
   }
 
