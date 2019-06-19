@@ -3,6 +3,8 @@ import StarRatings from 'react-star-ratings';
 
 import { withFirebase } from '../Firebase';
 import { withAuthorization, AuthUserContext } from '../Session';
+import classes from './review.module.css';
+import Modal from './reviewModal';
 
 
 
@@ -15,9 +17,10 @@ class Reviews extends React.Component {
         this.state = {
             reviews: {},
             sortedReviews: [],
-            comment: null,
+            sortedReviewsCopy: [],
+            comment: "",
+            modalIsOpen: false,
         }
-
     }
 
     componentDidMount() {
@@ -103,22 +106,33 @@ class Reviews extends React.Component {
                 dateTime
             })
             .then(() => {
-                this.setState({ comment: null });
+                this.setState({ comment: "" });
             });
         //TODO : Change so that when saving reviews, comments doesn't get overridden
     }
 
+    toggleModal = () => {
+        this.setState({
+            modalIsOpen: !this.state.modalIsOpen
+        });
+        console.log(this.state.modalIsOpen);
+    }
 
     render() {
         const { sortedReviews } = this.state;
 
         return (
             <div>
-                <ul>
-                    {sortedReviews.map((element, index) => (
-                        <li key={index}>
-                            <span>
-                                {element.shop} --
+                <Modal show={this.state.modalIsOpen}
+                    onClose={this.toggleModal}>
+                    Here's some content for the modal
+                </Modal>
+                <div className={`container`}>
+                    <ul>
+                        {sortedReviews.map((review, index) => (
+                            <li key={index}>
+                                <div className={`${classes.review} ${classes.reviewWell}`}>
+                                    {review.shop} --
                                 {/* <StarRatings
                                     rating={parseFloat(element.milkTeaScore)}
                                     starRatedColor="#0099ff"
@@ -152,32 +166,40 @@ class Reviews extends React.Component {
                                     isSelectable="false"
                                 /> */}
 
-                                 - {element.milkTeaScore} - {element.bobaScore} - {element.mouthFeelScore} - {element.username}
-                            </span>
-                            {
-                                element.comments ?
-                                    <div>
-                                        <div>
-                                            {element.comments.map((element, index) => (
-                                                <div key={index}>
-                                                    {element.comment} - {element.username}
-                                                </div>
-                                            ))}
+                                    - {review.milkTeaScore} - {review.bobaScore} - {review.mouthFeelScore} - {review.username}
+                                </div>
+                                {
+                                    review.comments ?
+                                        <div className={`${classes.commentWell}`}>
+                                            <div>
+                                                {review.comments.map((comment, index) => (
+                                                    <div key={index}>
+                                                        {comment.comment} - {comment.username} - {comment.dateTime}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div>
+                                                {/* <input name="comment" type="text" value={this.state.comment} onChange={(e) => this.onChange(e)} placeholder="Add comment" />
+                                                <button disabled={!this.state.comment} onClick={() => this.submitComment(review.shop, review.uid)}>a</button> */}
+                                                <button onClick={this.toggleModal}>
+                                                    Open the modal
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <input name="comment" type="text" onChange={this.onChange} placeholder="Add comment" />
-                                            <button onClick={() => this.submitComment(element.shop, element.uid)}>a</button>
+                                        :
+                                        <div className={`${classes.commentWell}`}>
+                                            {/* <input name="comment" type="text" value={this.state.comment} onChange={(e) => this.onChange(e)} placeholder="Add comment" />
+                                            <button disabled={!this.state.comment} onClick={() => this.submitComment(review.shop, review.uid)}>a</button> */}
+                                            <button onClick={this.toggleModal}>
+                                                Open the modal
+                                            </button>
                                         </div>
-                                    </div>
-                                    :
-                                    <div>
-                                        <input name="comment" type="text" onChange={this.onChange} placeholder="Add comment" />
-                                        <button onClick={() => this.submitComment(element.shop, element.uid)}>a</button>
-                                    </div>
-                            }
-                        </li>
-                    ))}
-                </ul>
+                                }
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
             </div>
         );
     }

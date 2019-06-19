@@ -30,10 +30,18 @@ class HomePage extends React.Component {
   }
 
   render() {
+
+    // <div className={`col-sm-6" ${classes.scroll}`}></div>
     return (
-      <div>
-        <NewReview formValues={this.state.formValues} />
-        <MyReviews editReview={this.editFormValues} />
+      <div className={classes.Content}>
+        <div className={`row" ${classes.Wrapper}`}>
+          <div className={`col-sm-6" ${classes.left}`}>
+            <NewReview formValues={this.state.formValues} />
+          </div>
+          <div className={`col-sm-6" ${classes.right}`}>
+            <MyReviews editReview={this.editFormValues} />
+          </div>
+        </div>
       </div>
     );
   }
@@ -61,6 +69,7 @@ class NewReviewBase extends React.Component {
     const dateTime = new Date().toLocaleString();
     const userId = this.context.authUser.uid;
     const username = this.context.username;
+    const comment = "";
 
     this.props.firebase
       .bobaShopUserReview(bobaShop, userId)
@@ -70,6 +79,7 @@ class NewReviewBase extends React.Component {
         bobaScore,
         mouthFeelScore,
         dateTime,
+        comment
       })
       .catch(error => {
         this.setState({ error });
@@ -83,6 +93,15 @@ class NewReviewBase extends React.Component {
         bobaScore,
         mouthFeelScore,
         dateTime,
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
+
+    this.props.firebase
+      .bobaShop(bobaShop)
+      .update({
+        bobaShop,
       })
       .then(() => {
         this.setState({ ...INITIAL_STATE });
@@ -101,15 +120,9 @@ class NewReviewBase extends React.Component {
     this.setState({ [name]: rating });
   };
 
-  // test = event => {
-  //   this.setState({'bobaShop': event.target});
-  // };
-
-  getAutosuggestInput(value){
-    // Test logging:
-    console.log(value);
-    this.setState({bobaShop: value})
-}
+  getAutosuggestInput(value) {
+    this.setState({ bobaShop: value })
+  }
 
   render() {
     const {
@@ -128,7 +141,7 @@ class NewReviewBase extends React.Component {
 
     return (
       <form onSubmit={this.onSubmit} className={classes.submitForm}>
-        <AutoSuggestBobaShops getInputData={this.getAutosuggestInput} bobaShop={bobaShop}/>
+        <AutoSuggestBobaShops getInputData={this.getAutosuggestInput} bobaShop={bobaShop} />
         {/* <input
           name="bobaShop"
           className={classes.reviewInput}
@@ -201,6 +214,7 @@ class MyReviewsBase extends React.Component {
     if (result) {
       this.props.firebase.userReviews(this.context.authUser.uid).child(key).remove();
       this.props.firebase.bobaShopUserReviews(key).child(this.context.authUser.uid).remove();
+      this.props.firebase.bobaShops().child(key).remove();
     }
   }
 

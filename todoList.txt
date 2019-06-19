@@ -1,3 +1,18 @@
 - style autocomplete for home input
-- insert into bobashop list, use for autofill, delete shop when review is deleted.
 - hover show for adding new comments
+- customization, variety of drinks, boba sweetness, boba chewinewss, drink quality, price , overall
+
+-CURRENT
+-Click outside modal to close
+
+
+  changeCommentValue = (value, index) => {
+        let sortedReviews = [...this.state.sortedReviews];
+        let sortedReview = {
+            ...sortedReviews[index],
+            comment: value
+        };
+        sortedReviews[index] = sortedReview;
+        this.setState({ sortedReviews });
+        console.log(this.state.sortedReviews);
+    }
