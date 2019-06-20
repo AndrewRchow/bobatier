@@ -22,3 +22,7 @@
 .review{
     font-weight: bold;
 }
+
+.addCommentButton {
+    margin-top:10px;
+}

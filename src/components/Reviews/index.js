@@ -18,9 +18,16 @@ class Reviews extends React.Component {
             reviews: {},
             sortedReviews: [],
             sortedReviewsCopy: [],
-            comment: "",
+            commentModal: {
+                comment:  "",
+                shop: "",
+                uid: ""
+            },
             modalIsOpen: false,
         }
+
+        this.submitComment = this.submitComment.bind(this);
+        this.changeComment = this.changeComment.bind(this);
     }
 
     componentDidMount() {
@@ -53,8 +60,6 @@ class Reviews extends React.Component {
                     ...this.state.reviews[shop][uid],
                     shop: shop,
                     uid: uid,
-                    // displayAddComment: false,
-                    // displayAllComments: false,
                 };
                 if (review.comments) {
 
@@ -76,24 +81,28 @@ class Reviews extends React.Component {
         this.setState({ sortedReviews: sortedReviews });
     }
 
-    // addComment(index) {
-    //     const newSortedReviews = this.state.sortedReviews.slice();
-    //     newSortedReviews[index].displayAddComment = true;
-    //     this.setState({ sortedReviews: newSortedReviews });
-    // }
+    toggleModal = (shop, uid) => {
+        const commentModal = {...this.state.commentModal};
+        commentModal.shop = shop;
+        commentModal.uid = uid;
+        
+        this.setState({
+            modalIsOpen: !this.state.modalIsOpen,
+            commentModal: commentModal
+        });
+    }
 
-    // viewComments(index) {
-    //     const newSortedReviews = this.state.sortedReviews.slice();
-    //     newSortedReviews[index].displayAllComments = true;
-    //     this.setState({ sortedReviews: newSortedReviews });
-    // }
-
-    onChange = event => {
-        this.setState({ comment: event.target.value });
+    changeComment  = event => {
+        const commentModal = {...this.state.commentModal};
+        commentModal.comment = event.target.value;
+        
+        this.setState({
+            commentModal:commentModal
+        });
     };
 
     submitComment(shop, uid) {
-        const comment = this.state.comment;
+        const comment = this.state.commentModal.comment;
         const username = this.context.username;
         const dateTime = new Date().toLocaleString();
 
@@ -106,16 +115,15 @@ class Reviews extends React.Component {
                 dateTime
             })
             .then(() => {
-                this.setState({ comment: "" });
+                this.setState({
+                    modalIsOpen: !this.state.modalIsOpen,
+                    ommentModal: {
+                        comment:  "",
+                        shop: "",
+                        uid: ""
+                    }
+                });
             });
-        //TODO : Change so that when saving reviews, comments doesn't get overridden
-    }
-
-    toggleModal = () => {
-        this.setState({
-            modalIsOpen: !this.state.modalIsOpen
-        });
-        console.log(this.state.modalIsOpen);
     }
 
     render() {
@@ -124,8 +132,11 @@ class Reviews extends React.Component {
         return (
             <div>
                 <Modal show={this.state.modalIsOpen}
-                    onClose={this.toggleModal}>
-                    Here's some content for the modal
+                    onClose={this.toggleModal}
+                    commentModal={this.state.commentModal}
+                    changeComment={this.changeComment}
+                    submitComment={this.submitComment}>
+                    Add a comment
                 </Modal>
                 <div className={`container`}>
                     <ul>
@@ -166,7 +177,7 @@ class Reviews extends React.Component {
                                     isSelectable="false"
                                 /> */}
 
-                                    - {review.milkTeaScore} - {review.bobaScore} - {review.mouthFeelScore} - {review.username}
+                                    - {review.milkTeaScore} - {review.bobaScore} - {review.mouthFeelScore} - {review.username} - {review.dateTime}
                                 </div>
                                 {
                                     review.comments ?
@@ -179,19 +190,15 @@ class Reviews extends React.Component {
                                                 ))}
                                             </div>
                                             <div>
-                                                {/* <input name="comment" type="text" value={this.state.comment} onChange={(e) => this.onChange(e)} placeholder="Add comment" />
-                                                <button disabled={!this.state.comment} onClick={() => this.submitComment(review.shop, review.uid)}>a</button> */}
-                                                <button onClick={this.toggleModal}>
-                                                    Open the modal
+                                                <button className={`btn btn-info ${classes.addCommentButton}`} onClick={() => this.toggleModal(review.shop, review.uid)}>
+                                                    Comment
                                                 </button>
                                             </div>
                                         </div>
                                         :
                                         <div className={`${classes.commentWell}`}>
-                                            {/* <input name="comment" type="text" value={this.state.comment} onChange={(e) => this.onChange(e)} placeholder="Add comment" />
-                                            <button disabled={!this.state.comment} onClick={() => this.submitComment(review.shop, review.uid)}>a</button> */}
-                                            <button onClick={this.toggleModal}>
-                                                Open the modal
+                                            <button className={`btn btn-info ${classes.addCommentButton}`} onClick={() => this.toggleModal(review.shop, review.uid)}>
+                                                Comment
                                             </button>
                                         </div>
                                 }
