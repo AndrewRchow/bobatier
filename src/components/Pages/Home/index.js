@@ -1,10 +1,10 @@
 import React from 'react';
 import classes from './home.module.css';
 
-import { withAuthorization, AuthUserContext } from '../Session';
-import { withFirebase } from '../Firebase';
+import { withAuthorization, AuthUserContext } from '../../Session';
+import { withFirebase } from '../../Firebase';
 import StarRatings from 'react-star-ratings';
-import AutoSuggestBobaShops from '../AutoSuggest/index';
+import AutoSuggestBobaShops from '../../ThirdParty/AutoSuggest/index';
 
 const INITIAL_STATE = {
   bobaShop: '',
@@ -184,7 +184,7 @@ class NewReviewBase extends React.Component {
           />
         </div>
 
-        <button className={classes.submitButton} disabled={isInvalid} type="submit">
+        <button className={`btn btn-primary ${classes.submitButton}`} disabled={isInvalid} type="submit">
           Submit
       </button>
 
@@ -249,21 +249,14 @@ class MyReviewsBase extends React.Component {
     return (
       <ul>
         {myReviews.map(review => (
-          <li key={review.bobaShop}>
-            <span>
-              {review.bobaShop} -
-            </span>
-            <span>
-              {review.milkTeaScore} -
-            </span>
-            <span>
-              {review.bobaScore} -
-            </span>
-            <span>
-              {review.mouthFeelScore}
-            </span>
-            <button onClick={() => this.props.editReview(review)}>e</button>
-            <button onClick={() => this.deleteReview(review.bobaShop)}>d</button>
+          <li key={review.bobaShop} className={`${classes.well}`}>
+            <div>
+              {review.bobaShop} - {review.milkTeaScore} - {review.bobaScore} - {review.mouthFeelScore}
+            </div>
+            <div>
+              <button className={`btn btn-info ${classes.updateButton}`} onClick={() => this.props.editReview(review)}>Edit</button>
+              <button className={`btn btn-danger ${classes.updateButton}`} onClick={() => this.deleteReview(review.bobaShop)}>Delete</button>
+            </div>
           </li>
         ))}
       </ul>

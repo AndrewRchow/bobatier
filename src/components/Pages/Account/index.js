@@ -1,10 +1,10 @@
 import React from 'react';
 import classes from './account.module.css';
 
-import { AuthUserContext } from '../Session';
-import { PasswordForgetForm } from '../PasswordForget';
-import PasswordChangeForm from '../PasswordChange';
-import { withAuthorization } from '../Session';
+import { AuthUserContext } from '../../Session';
+import { PasswordForgetForm } from '../../Partials/PasswordForget';
+import  PasswordChangeForm  from '../../Partials/PasswordChange';
+import { withAuthorization } from '../../Session';
 
 const divStyle={
   margin: '15px',

@@ -1,29 +1,29 @@
 import React from 'react';
 import classes from './navigation.module.css';
 import { Link } from 'react-router-dom';
-
-import SignOutButton from '../SignOut';
+import SignOutButton from '../Partials/SignOut';
 import * as ROUTES from '../../constants/routes';
-
 import { AuthUserContext } from '../Session';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 const authAdminMenuItems = [
-  ['Landing', ROUTES.LANDING],
-  ['Reviews', ROUTES.REVIEWS],
-  ['Home', ROUTES.HOME],
+  ['Tier List', ROUTES.LANDING],
+  ['Recent Reviews', ROUTES.REVIEWS],
+  ['My Reviews', ROUTES.HOME],
   ['Account', ROUTES.ACCOUNT],
   ['Admin', ROUTES.ADMIN],
 ];
 
 const authMenuItems = [
-  ['Landing', ROUTES.LANDING],
-  ['Reviews', ROUTES.REVIEWS],
-  ['Home', ROUTES.HOME],
+  ['Tier List', ROUTES.LANDING],
+  ['Recent Reviews', ROUTES.REVIEWS],
+  ['My Reviews', ROUTES.HOME],
   ['Account', ROUTES.ACCOUNT],
 ];
 
 const nonAuthMenuItems = [
-  ['Landing', ROUTES.LANDING],
+  ['Tier List', ROUTES.LANDING],
   ['Sign In', ROUTES.SIGN_IN],
 ];
 
@@ -45,24 +45,38 @@ class NavigationAuth extends React.Component {
     super(props);
 
     this.state = {
-      active: ''
+      active: '',
+      barsOpen:false,
     }
   }
 
+  barsClick  = () => {
+    this.setState({barsOpen:!this.state.barsOpen})
+  }
+
   render() {
+    let barsOpen = this.state.barsOpen;
     let signoutButton = null;
     if (this.props.signedIn) {
       signoutButton = <SignOutButton />
-    } 
+    }
+    
     return (
-      <div className='menu'>
+      <div className={`${(barsOpen ?  classes.responsive: "")} ${classes.navbar}`}>
         {this.props.menuItems.map(([menuItem, route]) =>
-          <Link key={menuItem} to={route}
+          <Link key={menuItem} to={route} onClick={this.barsClick}
             className={window.location.pathname === route ? classes.active : ""}>
             {menuItem}
           </Link>
         )}
+        <div className={`${(barsOpen ?  classes.responsiveSignout: "")}`} onClick={this.barsClick}>
         {signoutButton}
+        </div>
+
+
+        <a className={`${classes.icon}`} onClick={this.barsClick}>
+          <FontAwesomeIcon icon={faBars} size="lg"/>
+        </a>
       </div>
     );
   }

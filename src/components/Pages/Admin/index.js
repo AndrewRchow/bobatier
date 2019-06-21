@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
 
-import { withFirebase } from '../Firebase';
+import { withFirebase } from '../../Firebase';
 
-import { AuthUserContext } from '../Session';
-import { withAuthorization } from '../Session';
-import * as ROUTES from '../../constants/routes';
+import { AuthUserContext } from '../../Session';
+import { withAuthorization } from '../../Session';
+import * as ROUTES from '../../../constants/routes';
 
 
 class AdminPageBase extends Component {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { withFirebase } from '../Firebase';
+import { withFirebase } from '../../Firebase';
 
 
 class Landing extends React.Component {
@@ -42,8 +42,11 @@ class Landing extends React.Component {
   }
 
   gradeReviews() {
-    let count = 0;
-    let bobaTotal, milkTeaTotal, mouthFeelTotal = 0;
+    let count = 0; 
+    let finalScore = 0;
+    let bobaTotal = 0;
+    let milkTeaTotal = 0;
+    let mouthFeelTotal = 0;
     let grades = {};
 
     for (let shop in this.state.reviews) {
@@ -55,7 +58,7 @@ class Landing extends React.Component {
         count++;
       }
 
-      let finalScore = (parseFloat(bobaTotal) + parseFloat(milkTeaTotal) + parseFloat(mouthFeelTotal)) / (count * 3);
+      finalScore = (parseFloat(bobaTotal) + parseFloat(milkTeaTotal) + parseFloat(mouthFeelTotal)) / (count * 3);
       grades[shop] = finalScore;
 
       count = bobaTotal = milkTeaTotal = mouthFeelTotal = 0;

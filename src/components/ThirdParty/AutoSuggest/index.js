@@ -1,7 +1,7 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
 import theme from './theme.css';
-import { withFirebase } from '../Firebase';
+import { withFirebase } from '../../Firebase';
 
 let bobaShops = [
 ];
@@ -93,7 +93,7 @@ class AutoSuggestBobaShops extends React.Component {
 
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
-      placeholder: 'Enter boba shop name',
+      placeholder: 'Enter shop name',
       value,
       onChange: this.onChange
     };

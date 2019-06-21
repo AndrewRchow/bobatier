@@ -4,14 +4,17 @@ import { compose } from 'recompose';
 import PasswordMask from 'react-password-mask';
 
 import classes from './signIn.module.css';
-import { SignUpLink } from '../SignUp';
-import { PasswordForgetLink } from '../PasswordForget';
-import { withFirebase } from '../Firebase';
-import * as ROUTES from '../../constants/routes';
+import { SignUpLink } from '../../Partials/SignUp';
+import { PasswordForgetLink } from '../../Partials/PasswordForget';
+import { withFirebase } from '../../Firebase';
+import * as ROUTES from '../../../constants/routes';
 
+const signInPageStyle = {
+  margin:"20px"
+}
 const SignInPage = () => (
-  <div>
-    {/* <h1>SignIn</h1> */}
+  <div style={signInPageStyle}>
+    <h5>Sign In</h5>
     <SignInForm />
     <PasswordForgetLink />
     <SignUpLink />
@@ -56,6 +59,10 @@ class SignInFormBase extends Component {
 
     const isInvalid = password === '' || email === '';
 
+    const signInButtonStyle = {
+      marginTop:"8px",
+    }
+
     return (
       <form onSubmit={this.onSubmit}>
         <input
@@ -64,20 +71,21 @@ class SignInFormBase extends Component {
           onChange={this.onChange}
           type="text"
           placeholder="Email Address"
-          className={classes.signInInput}
+          className={classes.inputStyle}
         />
         <PasswordMask
           name="password"
           placeholder="Password"
           value={password}
           onChange={this.onChange}
-          className={classes.signInInput}
+          buttonClassName={classes.maskButton}
+          inputClassName={classes.inputStyle}
         />
-        <button disabled={isInvalid} type="submit">
+        <button className={`btn btn-primary`}  style={signInButtonStyle} disabled={isInvalid} type="submit">
           Sign In
         </button>
 
-        {error && <p>{error.message}</p>}
+        {error && <p className={classes.error}>{error.message}</p>}
       </form>
     );
   }

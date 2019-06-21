@@ -1,0 +1,18 @@
+.inputStyle {
+    width: 300px !important;
+    display: block;
+    margin: 8px 8px 8px 0;
+    padding: 5px;
+}
+
+.maskButton {
+    font-size: 12px;
+    position: absolute;
+    left: 245px;
+    top: 50%;
+    width: 50px
+}
+
+.error {
+    color: red;
+}

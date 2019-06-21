@@ -1,8 +1,8 @@
 import React from 'react';
 import StarRatings from 'react-star-ratings';
 
-import { withFirebase } from '../Firebase';
-import { withAuthorization, AuthUserContext } from '../Session';
+import { withFirebase } from '../../Firebase';
+import { withAuthorization, AuthUserContext } from '../../Session';
 import classes from './review.module.css';
 import Modal from './reviewModal';
 
