@@ -16,7 +16,7 @@ const AccountPage = () => (
       <div style={divStyle}>
         <h5>Account: {login.authUser.email}</h5>
         <PasswordForgetForm />
-        <PasswordChangeForm />
+        {/* <PasswordChangeForm /> */}
       </div>
     )}
   </AuthUserContext.Consumer>

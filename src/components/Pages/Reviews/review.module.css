@@ -26,3 +26,8 @@
 .addCommentButton {
     margin-top:10px;
 }
+
+.recentComment {
+    background-color:grey;
+    color:white;
+}

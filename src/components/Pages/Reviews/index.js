@@ -19,11 +19,12 @@ class Reviews extends React.Component {
             sortedReviews: [],
             sortedReviewsCopy: [],
             commentModal: {
-                comment:  "",
+                comment: "",
                 shop: "",
                 uid: ""
             },
             modalIsOpen: false,
+            currentTime: new Date(),
         }
 
         this.submitComment = this.submitComment.bind(this);
@@ -32,6 +33,7 @@ class Reviews extends React.Component {
 
     componentDidMount() {
         this.getAllReviewList();
+        this.interval = setInterval(() => this.setState({ currentTime: new Date() }), 1000);
     }
 
     getAllReviewList() {
@@ -49,6 +51,7 @@ class Reviews extends React.Component {
 
     componentWillUnmount() {
         this.props.firebase.bobaShopReviews().off();
+        clearInterval(this.interval);
     }
 
 
@@ -68,7 +71,7 @@ class Reviews extends React.Component {
                         uid: key,
                     }));
                     review.comments.sort(function (a, b) {
-                        return new Date(b.dateTime) - new Date(a.dateTime);
+                        return new Date(a.dateTime) - new Date(b.dateTime);
                     });
                 }
                 sortedReviews.push(review);
@@ -78,33 +81,36 @@ class Reviews extends React.Component {
             return new Date(b.dateTime) - new Date(a.dateTime);
         });
         console.log(sortedReviews);
+        sortedReviews = sortedReviews.splice(0, 50); //show top 50 reviews
         this.setState({ sortedReviews: sortedReviews });
     }
 
     toggleModal = (shop, uid) => {
-        const commentModal = {...this.state.commentModal};
+        const commentModal = { ...this.state.commentModal };
         commentModal.shop = shop;
         commentModal.uid = uid;
-        
+
         this.setState({
             modalIsOpen: !this.state.modalIsOpen,
             commentModal: commentModal
         });
     }
 
-    changeComment  = event => {
-        const commentModal = {...this.state.commentModal};
+    changeComment = event => {
+        const commentModal = { ...this.state.commentModal };
         commentModal.comment = event.target.value;
-        
+
         this.setState({
-            commentModal:commentModal
+            commentModal: commentModal
         });
     };
 
     submitComment(shop, uid) {
         const comment = this.state.commentModal.comment;
         const username = this.context.username;
-        const dateTime = new Date().toLocaleString();
+        let dateTime = new Date();
+        dateTime.setSeconds(dateTime.getSeconds() + 3);
+        dateTime = dateTime.toLocaleString();
 
         this.props.firebase
             .bobaShopUserComment(shop, uid)
@@ -118,7 +124,7 @@ class Reviews extends React.Component {
                 this.setState({
                     modalIsOpen: !this.state.modalIsOpen,
                     ommentModal: {
-                        comment:  "",
+                        comment: "",
                         shop: "",
                         uid: ""
                     }
@@ -127,8 +133,8 @@ class Reviews extends React.Component {
     }
 
     render() {
-        const { sortedReviews } = this.state;
-
+        const { sortedReviews, currentTime } = this.state;
+        
         return (
             <div>
                 <Modal show={this.state.modalIsOpen}
@@ -184,7 +190,9 @@ class Reviews extends React.Component {
                                         <div className={`${classes.commentWell}`}>
                                             <div>
                                                 {review.comments.map((comment, index) => (
-                                                    <div key={index}>
+                                                    <div key={index}
+                                                    className={(comment.dateTime> currentTime.toLocaleString() ? classes.recentComment : "")}
+                                                    >
                                                         {comment.comment} - {comment.username} - {comment.dateTime}
                                                     </div>
                                                 ))}
