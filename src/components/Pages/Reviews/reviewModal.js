@@ -77,7 +77,7 @@ class Modal extends React.Component {
                         {this.props.children}
                     </div>
                     <div className="footer">
-                        <textarea onChange={this.props.changeComment} name="comment" className='form-control' rows='3'></textarea>
+                        <textarea autoFocus={true} onChange={this.props.changeComment} name="comment" className='form-control' rows='3'></textarea>
                         <div style={buttonsStyle}>
                             <button style={buttonStyle} className='btn btn-info' onClick={this.props.onClose}>
                                 Cancel

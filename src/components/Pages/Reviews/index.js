@@ -6,7 +6,7 @@ import { withAuthorization, AuthUserContext } from '../../Session';
 import classes from './review.module.css';
 import Modal from './reviewModal';
 
-
+const dateOptions = { weekday: 'long', hour:'numeric', minute: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
 class Reviews extends React.Component {
     static contextType = AuthUserContext;
@@ -134,7 +134,7 @@ class Reviews extends React.Component {
 
     render() {
         const { sortedReviews, currentTime } = this.state;
-        
+
         return (
             <div>
                 <Modal show={this.state.modalIsOpen}
@@ -183,7 +183,7 @@ class Reviews extends React.Component {
                                     isSelectable="false"
                                 /> */}
 
-                                    - {review.milkTeaScore} - {review.bobaScore} - {review.mouthFeelScore} - {review.username} - {review.dateTime}
+                                    - {review.milkTeaScore} - {review.bobaScore} - {review.mouthFeelScore} - {review.username} - {new Date(review.dateTime).toLocaleDateString("en-US", dateOptions)}
                                 </div>
                                 {
                                     review.comments ?
@@ -191,9 +191,9 @@ class Reviews extends React.Component {
                                             <div>
                                                 {review.comments.map((comment, index) => (
                                                     <div key={index}
-                                                    className={(comment.dateTime> currentTime.toLocaleString() ? classes.recentComment : "")}
+                                                        className={(comment.dateTime > currentTime.toLocaleString() ? classes.recentComment : "")}
                                                     >
-                                                        {comment.comment} - {comment.username} - {comment.dateTime}
+                                                        {comment.comment} - {comment.username} - {new Date(comment.dateTime).toLocaleDateString("en-US", dateOptions)}
                                                     </div>
                                                 ))}
                                             </div>

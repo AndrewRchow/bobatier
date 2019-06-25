@@ -1,7 +1,8 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
-import theme from './theme.css';
 import { withFirebase } from '../../Firebase';
+import theme from './theme.css';
+// import classes from '*.module.css';
 
 let bobaShops = [
 ];
@@ -102,13 +103,13 @@ class AutoSuggestBobaShops extends React.Component {
     return (
 
       <Autosuggest
-        // theme={theme}
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
+      //styling from theme.css   
       />
     );
   }

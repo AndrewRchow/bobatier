@@ -1,6 +1,9 @@
 import React from 'react';
 import { withFirebase } from '../../Firebase';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { faUsers } from '@fortawesome/free-solid-svg-icons'
 
 class Landing extends React.Component {
   constructor(props) {
@@ -42,11 +45,12 @@ class Landing extends React.Component {
   }
 
   gradeReviews() {
-    let count = 0; 
+    let count = 0;
     let finalScore = 0;
     let bobaTotal = 0;
     let milkTeaTotal = 0;
     let mouthFeelTotal = 0;
+    let reviewCount = 0;
     let grades = {};
 
     for (let shop in this.state.reviews) {
@@ -56,16 +60,26 @@ class Landing extends React.Component {
         milkTeaTotal += userReview.milkTeaScore;
         mouthFeelTotal += userReview.mouthFeelScore;
         count++;
+        reviewCount++;
       }
 
       finalScore = (parseFloat(bobaTotal) + parseFloat(milkTeaTotal) + parseFloat(mouthFeelTotal)) / (count * 3);
-      grades[shop] = finalScore;
+      grades[shop] = {
+        shopName: shop,
+        finalScore: finalScore,
+        reviewCount: reviewCount
+      }
 
-      count = bobaTotal = milkTeaTotal = mouthFeelTotal = 0;
+      count = bobaTotal = milkTeaTotal = mouthFeelTotal = reviewCount = 0;
     }
 
+    const orderedGrades = {};
+    Object.keys(grades).sort().forEach(function (key) {
+      orderedGrades[key] = grades[key];
+    });
+
     this.setState({
-      grades: grades
+      grades: orderedGrades
     })
     console.log(grades);
 
@@ -80,20 +94,24 @@ class Landing extends React.Component {
     }
 
     for (let shop in grades) {
-      if (grades[shop] >= 5) {
-        tierList.SS.push(shop)
-      } else if (4.75 <= grades[shop] && grades[shop] < 5) {
-        tierList.S.push(shop)
-      } else if (4.25 <= grades[shop] && grades[shop] < 4.75) {
-        tierList.A.push(shop)
-      } else if (3.5 <= grades[shop] && grades[shop] < 4.25) {
-        tierList.B.push(shop)
-      } else if (2.75 <= grades[shop] && grades[shop] < 3.5) {
-        tierList.C.push(shop)
-      } else if (2 <= grades[shop] && grades[shop] < 2.75) {
-        tierList.D.push(shop)
-      } else if (grades[shop] < 2) {
-        tierList.E.push(shop)
+      const score = grades[shop].finalScore;
+      const name = grades[shop].shopName;
+      console.log(score, name);
+
+      if (score >= 5) {
+        tierList.SS.push(name)
+      } else if (4.75 <= score && score < 5) {
+        tierList.S.push(name)
+      } else if (4.25 <= score && score < 4.75) {
+        tierList.A.push(name)
+      } else if (3.5 <= score && score < 4.25) {
+        tierList.B.push(name)
+      } else if (2.75 <= score && score < 3.5) {
+        tierList.C.push(name)
+      } else if (2 <= score && score < 2.75) {
+        tierList.D.push(name)
+      } else if (score < 2) {
+        tierList.E.push(name)
       }
     }
 
@@ -101,6 +119,7 @@ class Landing extends React.Component {
       tierList: tierList
     });
     console.log(tierList);
+    console.log(grades);
   }
 
   componentWillUnmount() {
@@ -111,30 +130,41 @@ class Landing extends React.Component {
     const { grades } = this.state;
     const { tierList } = this.state;
 
-    var divStyle = {
+    const divStyle = {
       display: 'inline',
     };
 
+    const tiersStyle = {
+      padding: '3px'
+    }
+
+    const buttonStyle= {
+      color: 'black',
+      border: '1px solid #ccc',
+
+    }
+
     return (
       <div>
-        <ul>
-          {Object.entries(tierList).map(([tier, list]) => (
-            <li key={tier}>
-              <span>
-                {tier} -
-              </span>
-              {
-                list.map((shop, index) => (
-                  <div key={index} style={divStyle}>
-                    {shop}.
-                  </div>
-                ))
-              }
-            </li>
-          ))}
-        </ul>
+        <div>
+          <h5>TL</h5>
+          <ul>
+            {Object.entries(tierList).map(([tier, list]) => (
+              <li key={tier} style={tiersStyle}>
+                <button className={`btn btn-default`} style={buttonStyle}>{tier}</button> -{' '}
 
-        {/* <ul>
+                {
+                  list.map((shop, index) => (
+                    <div key={index} style={divStyle}>
+                      {shop}, {' '}
+                    </div>
+                  ))
+                }
+              </li>
+            ))}
+          </ul>
+
+          {/* <ul>
           {Object.entries(grades).map(([shopName, finalScore]) => (
             <li key={shopName}>
               <span>
@@ -147,7 +177,26 @@ class Landing extends React.Component {
           ))}
         </ul> */}
 
+        </div>
+        <div>
+          <h5>Scores</h5>
+          <ul>
+            {Object.keys(grades).map((shop, i) => (
+              <li key={i}>
+                <span>
+                  {grades[shop].shopName} - {' '}
+                  <FontAwesomeIcon icon={faStar} size="sm" />
+                  {Math.round(grades[shop].finalScore * 100) / 100} - {' '}
+                  <FontAwesomeIcon icon={faUsers} size="sm" />
+                  {grades[shop].reviewCount}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+        </div>
       </div>
+
     )
   }
 }
