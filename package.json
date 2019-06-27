@@ -19,6 +19,8 @@
     "react-scripts": "2.1.1",
     "react-star-ratings": "^2.3.0",
     "react-themeable": "^1.1.0",
+    "react-toastify": "^5.3.1",
+    "react-toastr": "^3.0.0",
     "recompose": "^0.30.0"
   },
   "scripts": {

@@ -5,12 +5,19 @@ import { withAuthorization, AuthUserContext } from '../../Session';
 import { withFirebase } from '../../Firebase';
 import StarRatings from 'react-star-ratings';
 import AutoSuggestBobaShops from '../../ThirdParty/AutoSuggest/index';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const INITIAL_STATE = {
   bobaShop: '',
-  milkTeaScore: 1,
-  bobaScore: 1,
-  mouthFeelScore: 1,
+  score1: 1,
+  score2: 1,
+  score3: 1,
+  score4: 1,
+  score5: 1,
+  score6: 1,
+  score7: 1,
+  score8: 1,
   error: null,
 };
 
@@ -22,9 +29,14 @@ class HomePage extends React.Component {
   }
 
   editFormValues(params) {
-    params.milkTeaScore = parseInt(params.milkTeaScore);
-    params.bobaScore = parseInt(params.bobaScore);
-    params.mouthFeelScore = parseInt(params.mouthFeelScore);
+    params.score1 = parseInt(params.score1);
+    params.score2 = parseInt(params.score2);
+    params.score3 = parseInt(params.score3);
+    params.score4 = parseInt(params.score4);
+    params.score5 = parseInt(params.score5);
+    params.score6 = parseInt(params.score6);
+    params.score7 = parseInt(params.score7);
+    params.score8 = parseInt(params.score8);
     this.setState({ formValues: params });
     window.scrollTo(0, 0);
   }
@@ -35,7 +47,7 @@ class HomePage extends React.Component {
     return (
       <div className={classes.Content}>
         <div className={`row" ${classes.Wrapper}`}>
-          <div className={`col-sm-6" ${classes.left}`}>
+          <div className={`col-sm-6" ${classes.left} ${classes.well}`}>
             <NewReview formValues={this.state.formValues} />
           </div>
           <div className={`col-sm-6" ${classes.right}`}>
@@ -65,7 +77,7 @@ class NewReviewBase extends React.Component {
   onSubmit = event => {
     event.preventDefault();
 
-    const { bobaShop, milkTeaScore, bobaScore, mouthFeelScore } = this.state;
+    const { bobaShop, score1, score2, score3, score4, score5, score6, score7, score8 } = this.state;
     const dateTime = new Date().toLocaleString();
     const userId = this.context.authUser.uid;
     const username = this.context.username;
@@ -75,9 +87,14 @@ class NewReviewBase extends React.Component {
       .bobaShopUserReview(bobaShop, userId)
       .update({
         username,
-        milkTeaScore,
-        bobaScore,
-        mouthFeelScore,
+        score1,
+        score2,
+        score3,
+        score4,
+        score5,
+        score6,
+        score7,
+        score8,
         dateTime,
         comment
       })
@@ -89,9 +106,14 @@ class NewReviewBase extends React.Component {
       .userReview(userId, bobaShop)
       .update({
         username,
-        milkTeaScore,
-        bobaScore,
-        mouthFeelScore,
+        score1,
+        score2,
+        score3,
+        score4,
+        score5,
+        score6,
+        score7,
+        score8,
         dateTime,
       })
       .catch(error => {
@@ -105,6 +127,7 @@ class NewReviewBase extends React.Component {
       })
       .then(() => {
         this.setState({ ...INITIAL_STATE });
+        this.notify();
       })
       .catch(error => {
         this.setState({ error });
@@ -124,65 +147,65 @@ class NewReviewBase extends React.Component {
     this.setState({ bobaShop: value })
   }
 
+  notify = () => toast("Review added");
+
   render() {
     const {
       bobaShop,
-      milkTeaScore,
-      bobaScore,
-      mouthFeelScore,
+      score1,
+      score2,
+      score3,
+      score4,
+      score5,
+      score6,
+      score7,
+      score8,
       error,
     } = this.state;
 
+    const scores = [score1, score2, score3, score4, score5, score6, score7, score8];
+    const scoreNames = ["Score 1", "Score 2", "Score 3", "Score 4", "Score 5", "Score 6", "Score 7", "Score 8"];
+
+    const ratingInputs = []
+    for (const [index, value] of scores.entries()) {
+      ratingInputs.push(
+        <div key={index}>
+          <h5>
+            {scoreNames[index]}
+          </h5>
+          <div className={classes.starRating}>
+            <StarRatings
+              rating={value}
+              starRatedColor="#0099ff"
+              starHoverColor="#66ccff"
+              changeRating={this.onChangeScore}
+              numberOfStars={5}
+              name={"score" + (index + 1)}
+              starDimension="20px"
+            /></div>
+        </div>
+      )
+    }
+
     const isInvalid =
       bobaShop === '' ||
-      milkTeaScore === '' ||
-      bobaScore === '' ||
-      mouthFeelScore === '';
+      score1 === '' ||
+      score2 === '' ||
+      score3 === '' ||
+      score4 === '' ||
+      score5 === '' ||
+      score6 === '' ||
+      score7 === '' ||
+      score8 === '';
 
     return (
       <form onSubmit={this.onSubmit} className={classes.submitForm}>
+        <ToastContainer
+        />
+        <h5>Shop Name</h5>
         <AutoSuggestBobaShops getInputData={this.getAutosuggestInput} bobaShop={bobaShop} />
-        {/* <input
-          name="bobaShop"
-          className={classes.reviewInput}
-          value={bobaShop}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Shop"
-        /> */}
-        <div className={classes.starRating}>
-          <StarRatings
-            rating={milkTeaScore}
-            starRatedColor="#0099ff"
-            starHoverColor="#66ccff"
-            changeRating={this.onChangeScore}
-            numberOfStars={5}
-            name="milkTeaScore"
-            starDimension="20px"
-          />
-        </div>
-        <div className={classes.starRating}>
-          <StarRatings
-            rating={bobaScore}
-            starRatedColor="#0099ff"
-            starHoverColor="#66ccff"
-            changeRating={this.onChangeScore}
-            numberOfStars={5}
-            name="bobaScore"
-            starDimension="20px"
-          />
-        </div>
-        <div className={classes.starRating}>
-          <StarRatings
-            rating={mouthFeelScore}
-            starRatedColor="#0099ff"
-            starHoverColor="#66ccff"
-            changeRating={this.onChangeScore}
-            numberOfStars={5}
-            name="mouthFeelScore"
-            starDimension="20px"
-          />
-        </div>
+        {/* <div className={`row`}></div> */}
+        <div>{ratingInputs}</div>
 
         <button className={`btn btn-primary ${classes.submitButton}`} disabled={isInvalid} type="submit">
           Submit
@@ -218,10 +241,6 @@ class MyReviewsBase extends React.Component {
     }
   }
 
-  // editReview(event) {
-  //   this.props.callback(event.target.value);
-  // }
-
   getReviewList() {
     const userId = this.context.authUser.uid
 
@@ -232,8 +251,13 @@ class MyReviewsBase extends React.Component {
           bobaShop: key,
           ...myReviewsObject[key],
         }))
+
         this.setState({
           myReviews: myReviewsList,
+        });
+      } else {
+        this.setState({
+          myReviews: [],
         });
       }
     });
@@ -245,21 +269,139 @@ class MyReviewsBase extends React.Component {
 
   render() {
     const { myReviews } = this.state;
+    console.log(myReviews);
 
     return (
-      <ul>
-        {myReviews.map(review => (
-          <li key={review.bobaShop} className={`${classes.well}`}>
-            <div>
-              {review.bobaShop} - {review.milkTeaScore} - {review.bobaScore} - {review.mouthFeelScore}
+      <div>
+        {myReviews === undefined || myReviews.length == 0 ?
+          <div  className={`${classes.noReviewsWell}`}>
+            No Reviews Added.
             </div>
-            <div>
-              <button className={`btn btn-info ${classes.updateButton}`} onClick={() => this.props.editReview(review)}>Edit</button>
-              <button className={`btn btn-danger ${classes.updateButton}`} onClick={() => this.deleteReview(review.bobaShop)}>Delete</button>
-            </div>
-          </li>
-        ))}
-      </ul>
+          :
+          <ul>
+            {myReviews.map(review => (
+              <li key={review.bobaShop} className={`${classes.well}`}>
+                <div>
+                  <h5>{review.bobaShop}</h5>
+                  <div className={`row`}>
+                    <div className={`col-sm-3`}>
+                      <p>Score 1</p>
+                      <StarRatings
+                        rating={review.score1}
+                        starRatedColor="#0099ff"
+                        starHoverColor="#66ccff"
+                        numberOfStars={5}
+                        name="score1"
+                        starDimension="12px"
+                        starSpacing="2px"
+                        isSelectable="false"
+                      />
+                    </div>
+                    <div className={`col-sm-3`}>
+                      <p>Score 2</p>
+                      <StarRatings
+                        rating={review.score2}
+                        starRatedColor="#0099ff"
+                        starHoverColor="#66ccff"
+                        numberOfStars={5}
+                        name="score1"
+                        starDimension="12px"
+                        starSpacing="2px"
+                        isSelectable="false"
+                      />
+                    </div>
+                    <div className={`col-sm-3`}>
+                      <p>Score 3</p>
+                      <StarRatings
+                        rating={review.score3}
+                        starRatedColor="#0099ff"
+                        starHoverColor="#66ccff"
+                        numberOfStars={5}
+                        name="score1"
+                        starDimension="12px"
+                        starSpacing="2px"
+                        isSelectable="false"
+                      />
+                    </div>
+                    <div className={`col-sm-3`}>
+                      <p>Score 4</p>
+                      <StarRatings
+                        rating={review.score4}
+                        starRatedColor="#0099ff"
+                        starHoverColor="#66ccff"
+                        numberOfStars={5}
+                        name="score1"
+                        starDimension="12px"
+                        starSpacing="2px"
+                        isSelectable="false"
+                      />
+                    </div>
+                  </div>
+                  <div className={`row`}>
+                    <div className={`col-sm-3`}>
+                      <p>Score 5</p>
+                      <StarRatings
+                        rating={review.score5}
+                        starRatedColor="#0099ff"
+                        starHoverColor="#66ccff"
+                        numberOfStars={5}
+                        name="score1"
+                        starDimension="12px"
+                        starSpacing="2px"
+                        isSelectable="false"
+                      />
+                    </div>
+                    <div className={`col-sm-3`}>
+                      <p>Score 6</p>
+                      <StarRatings
+                        rating={review.score6}
+                        starRatedColor="#0099ff"
+                        starHoverColor="#66ccff"
+                        numberOfStars={5}
+                        name="score1"
+                        starDimension="12px"
+                        starSpacing="2px"
+                        isSelectable="false"
+                      />
+                    </div>
+                    <div className={`col-sm-3`}>
+                      <p>Score 7</p>
+                      <StarRatings
+                        rating={review.score7}
+                        starRatedColor="#0099ff"
+                        starHoverColor="#66ccff"
+                        numberOfStars={5}
+                        name="score1"
+                        starDimension="12px"
+                        starSpacing="2px"
+                        isSelectable="false"
+                      />
+                    </div>
+                    <div className={`col-sm-3`}>
+                      <p>Score 8</p>
+                      <StarRatings
+                        rating={review.score8}
+                        starRatedColor="#0099ff"
+                        starHoverColor="#66ccff"
+                        numberOfStars={5}
+                        name="score1"
+                        starDimension="12px"
+                        starSpacing="2px"
+                        isSelectable="false"
+                      />
+                    </div>
+
+                  </div>
+                </div>
+                <div>
+                  <button className={`btn btn-info ${classes.updateButton}`} onClick={() => this.props.editReview(review)}>Edit</button>
+                  <button className={`btn btn-danger ${classes.updateButton}`} onClick={() => this.deleteReview(review.bobaShop)}>Delete</button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        }
+      </div>
     )
   }
 }

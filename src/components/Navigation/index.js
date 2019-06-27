@@ -24,6 +24,7 @@ const authMenuItems = [
 
 const nonAuthMenuItems = [
   ['Tier List', ROUTES.LANDING],
+  ['Recent Reviews', ROUTES.REVIEWS],
   ['Sign In', ROUTES.SIGN_IN],
 ];
 

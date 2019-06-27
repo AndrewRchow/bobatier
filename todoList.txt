@@ -1,18 +1,11 @@
-- style autocomplete for home input
-- hover show for adding new comments
-- customization, variety of drinks, boba sweetness, boba chewinewss, drink quality, price , overall
-
--CURRENT
--Click outside modal to close
 
 
-  changeCommentValue = (value, index) => {
-        let sortedReviews = [...this.state.sortedReviews];
-        let sortedReview = {
-            ...sortedReviews[index],
-            comment: value
-        };
-        sortedReviews[index] = sortedReview;
-        this.setState({ sortedReviews });
-        console.log(this.state.sortedReviews);
-    }
+SCORES
+score1: drink quality
+score2: boba sweetness
+score3: boba chewiness
+score4: customization
+score5: drink variety
+score6: consistency
+score7: price 
+score8: overall ratingaaa
