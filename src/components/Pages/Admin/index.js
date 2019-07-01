@@ -19,7 +19,7 @@ class AdminPageBase extends Component {
   }
 
   componentWillMount(){
-    // this.props.history.push(ROUTES.LANDING);
+    // this.props.history.push(process.env.PUBLIC_URL + ROUTES.LANDING);
 
   }
 
