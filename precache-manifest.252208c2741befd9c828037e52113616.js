@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "fdacd5f6041b108101bd",
+    "revision": "b7b7b18ae81edc689377",
     "url": "/bobatier/static/css/main.3a432001.chunk.css"
   },
   {
-    "revision": "fdacd5f6041b108101bd",
-    "url": "/bobatier/static/js/main.fdacd5f6.chunk.js"
+    "revision": "b7b7b18ae81edc689377",
+    "url": "/bobatier/static/js/main.b7b7b18a.chunk.js"
   },
   {
     "revision": "16428d92c593c8f4f554",
@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/bobatier/static/js/runtime~main.eec82ebe.js"
   },
   {
-    "revision": "8e8424d9175b541ea21b4f017b2515a5",
+    "revision": "d779068d514781fcf79262ded252f6d7",
     "url": "/bobatier/index.html"
   }
 ];

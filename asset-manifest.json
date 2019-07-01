@@ -1,15 +1,15 @@
 {
   "main.css": "/bobatier/static/css/main.3a432001.chunk.css",
-  "main.js": "/bobatier/static/js/main.fdacd5f6.chunk.js",
-  "main.js.map": "/bobatier/static/js/main.fdacd5f6.chunk.js.map",
+  "main.js": "/bobatier/static/js/main.b7b7b18a.chunk.js",
+  "main.js.map": "/bobatier/static/js/main.b7b7b18a.chunk.js.map",
   "static/css/1.e4c637e6.chunk.css": "/bobatier/static/css/1.e4c637e6.chunk.css",
   "static/js/1.16428d92.chunk.js": "/bobatier/static/js/1.16428d92.chunk.js",
   "static/js/1.16428d92.chunk.js.map": "/bobatier/static/js/1.16428d92.chunk.js.map",
   "runtime~main.js": "/bobatier/static/js/runtime~main.eec82ebe.js",
   "runtime~main.js.map": "/bobatier/static/js/runtime~main.eec82ebe.js.map",
-  "static/css/1.e4c637e6.chunk.css.map": "/bobatier/static/css/1.e4c637e6.chunk.css.map",
   "static/css/main.3a432001.chunk.css.map": "/bobatier/static/css/main.3a432001.chunk.css.map",
+  "static/css/1.e4c637e6.chunk.css.map": "/bobatier/static/css/1.e4c637e6.chunk.css.map",
   "index.html": "/bobatier/index.html",
-  "precache-manifest.6ab50213353eb61b083b63bdf2f97dab.js": "/bobatier/precache-manifest.6ab50213353eb61b083b63bdf2f97dab.js",
+  "precache-manifest.252208c2741befd9c828037e52113616.js": "/bobatier/precache-manifest.252208c2741befd9c828037e52113616.js",
   "service-worker.js": "/bobatier/service-worker.js"
 }
