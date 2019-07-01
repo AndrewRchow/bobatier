@@ -23,16 +23,16 @@ const App = () => (
         <hr />
       </div>
       <div className={classes.main}>
-        <Route exact path={ROUTES.LANDING} component={LandingPage} />
-        <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
-        <Route exact path={ROUTES.SIGN_IN} component={SignInPage} />
-        <Route exact path={ROUTES.HOME} component={HomePage} />
-        <Route exact path={ROUTES.REVIEWS} component={ReviewsPage} />
-        <Route exact path={ROUTES.ACCOUNT} component={AccountPage} />
-        <Route exact path={ROUTES.ADMIN} component={AdminPage} />
+        <Route exact path={process.env.PUBLIC_URL + ROUTES.LANDING} component={LandingPage} />
+        <Route exact path={process.env.PUBLIC_URL + ROUTES.SIGN_UP} component={SignUpPage} />
+        <Route exact path={process.env.PUBLIC_URL + ROUTES.SIGN_IN} component={SignInPage} />
+        <Route exact path={process.env.PUBLIC_URL + ROUTES.HOME} component={HomePage} />
+        <Route exact path={process.env.PUBLIC_URL + ROUTES.REVIEWS} component={ReviewsPage} />
+        <Route exact path={process.env.PUBLIC_URL + ROUTES.ACCOUNT} component={AccountPage} />
+        <Route exact path={process.env.PUBLIC_URL + ROUTES.ADMIN} component={AdminPage} />
         <Route
           exact
-          path={ROUTES.PASSWORD_FORGET}
+          path={process.env.PUBLIC_URL + ROUTES.PASSWORD_FORGET}
           component={PasswordForgetPage}
         />
       </div>

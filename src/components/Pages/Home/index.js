@@ -199,20 +199,24 @@ class NewReviewBase extends React.Component {
       score8 === '';
 
     return (
-      <form onSubmit={this.onSubmit} className={classes.submitForm}>
+      <div>
         <ToastContainer
         />
-        <h5>Shop Name</h5>
-        <AutoSuggestBobaShops getInputData={this.getAutosuggestInput} bobaShop={bobaShop} />
-        {/* <div className={`row`}></div> */}
-        <div>{ratingInputs}</div>
+        <form onSubmit={this.onSubmit} className={classes.submitForm}>
 
-        <button className={`btn btn-primary ${classes.submitButton}`} disabled={isInvalid} type="submit">
-          Submit
-      </button>
+          <h5>Shop Name</h5>
+          <AutoSuggestBobaShops getInputData={this.getAutosuggestInput} bobaShop={bobaShop} />
+          {/* <div className={`row`}></div> */}
+          <div>{ratingInputs}</div>
 
-        {error && <p>{error.message}</p>}
-      </form>
+          <button className={`btn btn-primary ${classes.submitButton}`} disabled={isInvalid} type="submit">
+            Submit
+        </button>
+
+          {error && <p>{error.message}</p>}
+        </form>
+      </div>
+
     )
   }
 }
@@ -274,7 +278,7 @@ class MyReviewsBase extends React.Component {
     return (
       <div>
         {myReviews === undefined || myReviews.length == 0 ?
-          <div  className={`${classes.noReviewsWell}`}>
+          <div className={`${classes.noReviewsWell}`}>
             No Reviews Added.
             </div>
           :

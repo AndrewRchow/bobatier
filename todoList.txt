@@ -8,4 +8,4 @@ score4: customization
 score5: drink variety
 score6: consistency
 score7: price 
-score8: overall ratingaaa
+score8: overall rating

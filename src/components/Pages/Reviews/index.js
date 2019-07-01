@@ -109,7 +109,7 @@ class Reviews extends React.Component {
         const comment = this.state.commentModal.comment;
         const username = this.context.username;
         let dateTime = new Date();
-        dateTime.setSeconds(dateTime.getSeconds() + 1);
+        dateTime.setSeconds(dateTime.getSeconds() + 3);
         dateTime = dateTime.toLocaleString();
 
         this.props.firebase

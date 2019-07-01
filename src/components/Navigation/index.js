@@ -8,24 +8,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 const authAdminMenuItems = [
-  ['Tier List', ROUTES.LANDING],
-  ['Recent Reviews', ROUTES.REVIEWS],
-  ['My Reviews', ROUTES.HOME],
-  ['Account', ROUTES.ACCOUNT],
-  ['Admin', ROUTES.ADMIN],
+  ['Tier List', process.env.PUBLIC_URL + ROUTES.LANDING],
+  ['Recent Reviews', process.env.PUBLIC_URL + ROUTES.REVIEWS],
+  ['My Reviews', process.env.PUBLIC_URL + ROUTES.HOME],
+  ['Account', process.env.PUBLIC_URL + ROUTES.ACCOUNT],
+  ['Admin', process.env.PUBLIC_URL + ROUTES.ADMIN],
 ];
 
 const authMenuItems = [
-  ['Tier List', ROUTES.LANDING],
-  ['Recent Reviews', ROUTES.REVIEWS],
-  ['My Reviews', ROUTES.HOME],
-  ['Account', ROUTES.ACCOUNT],
+  ['Tier List', process.env.PUBLIC_URL + ROUTES.LANDING],
+  ['Recent Reviews', process.env.PUBLIC_URL + ROUTES.REVIEWS],
+  ['My Reviews', process.env.PUBLIC_URL + ROUTES.HOME],
+  ['Account', process.env.PUBLIC_URL + ROUTES.ACCOUNT],
 ];
 
 const nonAuthMenuItems = [
-  ['Tier List', ROUTES.LANDING],
-  ['Recent Reviews', ROUTES.REVIEWS],
-  ['Sign In', ROUTES.SIGN_IN],
+  ['Tier List', process.env.PUBLIC_URL + ROUTES.LANDING],
+  ['Recent Reviews', process.env.PUBLIC_URL + ROUTES.REVIEWS],
+  ['Sign In', process.env.PUBLIC_URL + ROUTES.SIGN_IN],
 ];
 
 
@@ -47,12 +47,12 @@ class NavigationAuth extends React.Component {
 
     this.state = {
       active: '',
-      barsOpen:false,
+      barsOpen: false,
     }
   }
 
-  barsClick  = () => {
-    this.setState({barsOpen:!this.state.barsOpen})
+  barsClick = () => {
+    this.setState({ barsOpen: !this.state.barsOpen })
   }
 
   render() {
@@ -61,22 +61,22 @@ class NavigationAuth extends React.Component {
     if (this.props.signedIn) {
       signoutButton = <SignOutButton />
     }
-    
+
     return (
-      <div className={`${(barsOpen ?  classes.responsive: "")} ${classes.navbar}`}>
+      <div className={`${(barsOpen ? classes.responsive : "")} ${classes.navbar}`}>
         {this.props.menuItems.map(([menuItem, route]) =>
           <Link key={menuItem} to={route} onClick={this.barsClick}
             className={window.location.pathname === route ? classes.active : ""}>
             {menuItem}
           </Link>
         )}
-        <div className={`${(barsOpen ?  classes.responsiveSignout: "")}`} onClick={this.barsClick}>
-        {signoutButton}
+        <div className={`${(barsOpen ? classes.responsiveSignout : "")}`} onClick={this.barsClick}>
+          {signoutButton}
         </div>
 
 
         <a className={`${classes.icon}`} onClick={this.barsClick}>
-          <FontAwesomeIcon icon={faBars} size="lg"/>
+          <FontAwesomeIcon icon={faBars} size="lg" />
         </a>
       </div>
     );
