@@ -18,6 +18,7 @@ const INITIAL_STATE = {
   score6: 1,
   score7: 1,
   score8: 1,
+  note: "",
   error: null,
 };
 
@@ -77,7 +78,7 @@ class NewReviewBase extends React.Component {
   onSubmit = event => {
     event.preventDefault();
 
-    const { bobaShop, score1, score2, score3, score4, score5, score6, score7, score8 } = this.state;
+    const { bobaShop, score1, score2, score3, score4, score5, score6, score7, score8, note } = this.state;
     const dateTime = new Date().toLocaleString();
     const userId = this.context.authUser.uid;
     const username = this.context.username;
@@ -95,6 +96,7 @@ class NewReviewBase extends React.Component {
         score6,
         score7,
         score8,
+        note,
         dateTime,
         comment
       })
@@ -114,6 +116,7 @@ class NewReviewBase extends React.Component {
         score6,
         score7,
         score8,
+        note,
         dateTime,
       })
       .catch(error => {
@@ -160,6 +163,7 @@ class NewReviewBase extends React.Component {
       score6,
       score7,
       score8,
+      note,
       error,
     } = this.state;
 
@@ -208,6 +212,14 @@ class NewReviewBase extends React.Component {
           <AutoSuggestBobaShops getInputData={this.getAutosuggestInput} bobaShop={bobaShop} />
           {/* <div className={`row`}></div> */}
           <div>{ratingInputs}</div>
+          <div>
+            <textarea name="note"
+              value={note}
+              onChange={this.onChange}
+              type="text"
+              placeholder="Note"
+            />
+          </div>
 
           <button className={`btn btn-primary ${classes.submitButton}`} disabled={isInvalid} type="submit">
             Submit
@@ -395,6 +407,11 @@ class MyReviewsBase extends React.Component {
                       />
                     </div>
 
+                  </div>
+                  <div className={`row`}>
+                    <div className={`col-sm-12`}>
+                      <p>{review.note}</p>
+                    </div>
                   </div>
                 </div>
                 <div>

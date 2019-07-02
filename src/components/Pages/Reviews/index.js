@@ -135,7 +135,6 @@ class Reviews extends React.Component {
     render() {
         const { sortedReviews, currentTime } = this.state;
         const authUser = this.context.username;
-        console.log(authUser);
 
         return (
             <div>
@@ -262,6 +261,11 @@ class Reviews extends React.Component {
                                                         />
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div className={`row`}>
+                                            <div className={`col-sm-12`}>
+                                                <p>{review.note}</p>
                                             </div>
                                         </div>
                                         <div>
