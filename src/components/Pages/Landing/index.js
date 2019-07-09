@@ -1,6 +1,8 @@
 import React from 'react';
 import { withFirebase } from '../../Firebase';
 import classes from './landing.module.css';
+import { Link } from 'react-router-dom';
+import * as ROUTES from '../../../constants/routes';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
@@ -157,12 +159,17 @@ class Landing extends React.Component {
             <ul>
               {Object.entries(tierList).map(([tier, list]) => (
                 <li key={tier} style={tiersStyle}>
-                  <button className={`btn btn-default`} style={buttonStyle}>{tier}</button> &nbsp; &nbsp;
-  
-                {
+                  <button className={`btn btn-default ${classes.tierLabel}`} style={buttonStyle}>{tier}</button>
+
+                  {
                     list.map((shop, index) => (
                       <div key={index} style={divStyle}>
-                        {shop}, {' '}
+
+                        <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: shop } }}>
+                          {shop}
+                        </Link>
+
+                        , {' '}
                       </div>
                     ))
                   }
@@ -178,7 +185,10 @@ class Landing extends React.Component {
               {Object.keys(grades).map((shop, i) => (
                 <li key={i}>
                   <span>
-                    {grades[shop].shopName} - {' '}
+                    <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: grades[shop].shopName } }}>
+                      {grades[shop].shopName}
+                    </Link>
+                    - {' '}
                     <FontAwesomeIcon icon={faStar} size="sm" />
                     {Math.round(grades[shop].finalScore * 100) / 100} - {' '}
                     <FontAwesomeIcon icon={faUsers} size="sm" />

@@ -9,6 +9,8 @@ import SignInPage from '../Pages/SignIn';
 import PasswordForgetPage from '../Partials/PasswordForget';
 import HomePage from '../Pages/Home';
 import ReviewsPage from '../Pages/Reviews';
+import ShopsPage from '../Pages/Shops';
+import UsersPage from '../Pages/Users';
 import AccountPage from '../Pages/Account';
 import AdminPage from '../Pages/Admin';
 
@@ -28,6 +30,8 @@ const App = () => (
         <Route exact path={process.env.PUBLIC_URL + ROUTES.SIGN_IN} component={SignInPage} />
         <Route exact path={process.env.PUBLIC_URL + ROUTES.HOME} component={HomePage} />
         <Route exact path={process.env.PUBLIC_URL + ROUTES.REVIEWS} component={ReviewsPage} />
+        <Route exact path={process.env.PUBLIC_URL + ROUTES.SHOPS} component={ShopsPage} />
+        <Route exact path={process.env.PUBLIC_URL + ROUTES.USERS} component={UsersPage} />
         <Route exact path={process.env.PUBLIC_URL + ROUTES.ACCOUNT} component={AccountPage} />
         <Route exact path={process.env.PUBLIC_URL + ROUTES.ADMIN} component={AdminPage} />
         <Route

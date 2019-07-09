@@ -9,6 +9,8 @@ import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 const authAdminMenuItems = [
   ['Tier List', process.env.PUBLIC_URL + ROUTES.LANDING],
+  ['Shops', process.env.PUBLIC_URL + ROUTES.SHOPS],
+  ['Users', process.env.PUBLIC_URL + ROUTES.USERS],
   ['Recent Reviews', process.env.PUBLIC_URL + ROUTES.REVIEWS],
   ['My Reviews', process.env.PUBLIC_URL + ROUTES.HOME],
   ['Account', process.env.PUBLIC_URL + ROUTES.ACCOUNT],
@@ -17,6 +19,8 @@ const authAdminMenuItems = [
 
 const authMenuItems = [
   ['Tier List', process.env.PUBLIC_URL + ROUTES.LANDING],
+  ['Shops', process.env.PUBLIC_URL + ROUTES.SHOPS],
+  ['Users', process.env.PUBLIC_URL + ROUTES.USERS],
   ['Recent Reviews', process.env.PUBLIC_URL + ROUTES.REVIEWS],
   ['My Reviews', process.env.PUBLIC_URL + ROUTES.HOME],
   ['Account', process.env.PUBLIC_URL + ROUTES.ACCOUNT],
@@ -24,6 +28,8 @@ const authMenuItems = [
 
 const nonAuthMenuItems = [
   ['Tier List', process.env.PUBLIC_URL + ROUTES.LANDING],
+  ['Shops', process.env.PUBLIC_URL + ROUTES.SHOPS],
+  ['Users', process.env.PUBLIC_URL + ROUTES.USERS],
   ['Recent Reviews', process.env.PUBLIC_URL + ROUTES.REVIEWS],
   ['Sign In', process.env.PUBLIC_URL + ROUTES.SIGN_IN],
 ];

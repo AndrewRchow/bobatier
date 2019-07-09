@@ -1,10 +1,12 @@
 import React from 'react';
 import classes from './home.module.css';
-
 import { withAuthorization, AuthUserContext } from '../../Session';
 import { withFirebase } from '../../Firebase';
+import { Link } from 'react-router-dom';
+import * as ROUTES from '../../../constants/routes';
+
 import StarRatings from 'react-star-ratings';
-import AutoSuggestBobaShops from '../../ThirdParty/AutoSuggest/index';
+import AutoSuggestShops from '../../ThirdParty/AutoSuggestShops/index';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -48,10 +50,10 @@ class HomePage extends React.Component {
     return (
       <div className={classes.Content}>
         <div className={`row" ${classes.Wrapper}`}>
-          <div className={`col-sm-6" ${classes.left} ${classes.well}`}>
+          <div className={`col-12 col-sm-6" ${classes.left} ${classes.well}`}>
             <NewReview formValues={this.state.formValues} />
           </div>
-          <div className={`col-sm-6" ${classes.right}`}>
+          <div className={`col-12 col-sm-6" ${classes.right}`}>
             <MyReviews editReview={this.editFormValues} />
           </div>
         </div>
@@ -149,6 +151,8 @@ class NewReviewBase extends React.Component {
   getAutosuggestInput(value) {
     this.setState({ bobaShop: value })
   }
+  getAutoSuggestSelected(value) {
+  }
 
   notify = () => toast("Review added");
 
@@ -204,12 +208,14 @@ class NewReviewBase extends React.Component {
 
     return (
       <div>
-        <ToastContainer
-        />
+        <ToastContainer />
         <form onSubmit={this.onSubmit} className={classes.submitForm}>
 
           <h5>Shop Name</h5>
-          <AutoSuggestBobaShops getInputData={this.getAutosuggestInput} bobaShop={bobaShop} />
+          <AutoSuggestShops
+            getInputData={this.getAutosuggestInput}
+            getSelectedData={this.getAutoSuggestSelected}
+            bobaShop={bobaShop} />
           {/* <div className={`row`}></div> */}
           <div>{ratingInputs}</div>
           <div>
@@ -220,10 +226,9 @@ class NewReviewBase extends React.Component {
               placeholder="Note"
             />
           </div>
-
           <button className={`btn btn-primary ${classes.submitButton}`} disabled={isInvalid} type="submit">
             Submit
-        </button>
+      </button>
 
           {error && <p>{error.message}</p>}
         </form>
@@ -298,7 +303,9 @@ class MyReviewsBase extends React.Component {
             {myReviews.map(review => (
               <li key={review.bobaShop} className={`${classes.well}`}>
                 <div>
-                  <h5>{review.bobaShop}</h5>
+                  <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: review.bobaShop } }}>
+                    {review.bobaShop}
+                  </Link>
                   <div className={`row`}>
                     <div className={`col-sm-3`}>
                       <p>Score 1</p>
@@ -406,7 +413,6 @@ class MyReviewsBase extends React.Component {
                         isSelectable="false"
                       />
                     </div>
-
                   </div>
                   <div className={`row`}>
                     <div className={`col-sm-12`}>

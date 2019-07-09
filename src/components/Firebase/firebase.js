@@ -39,7 +39,7 @@ class Firebase {
 
   // *** User API ***
 
-  user = uid => this.db.ref(`users/${uid}`);
+  user = userid => this.db.ref(`users/${userid}`);
   bobaShopUserReview = (shopName, userId) => this.db.ref(`bobaShopUserReviews/${shopName}/${userId}`);
   bobaShopUserComment = (shopName, userId) => this.db.ref(`bobaShopUserReviews/${shopName}/${userId}/comments`);
   userReview = (userId, shopName) => this.db.ref(`users/${userId}/reviews/${shopName}`);
