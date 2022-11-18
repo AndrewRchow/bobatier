@@ -18,7 +18,7 @@
     "react-dom": "^16.6.3",
     "react-password-mask": "^3.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
+    "react-scripts": "5.0.1",
     "react-star-ratings": "^2.3.0",
     "react-themeable": "^1.1.0",
     "react-toastify": "^5.3.1",
